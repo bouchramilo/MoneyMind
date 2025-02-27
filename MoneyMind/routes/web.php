@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckIfAdmin;
@@ -22,24 +23,43 @@ Route::get('/utilisateur/dashboard', function () {
     return view('utilisateur/dashboard');
 })->middleware(['auth', 'verified', CheckIfUtilisateur::class])->name('utilisateur.dashboard');
 
+Route::middleware(['auth', 'verified', CheckIfUtilisateur::class])->group(function () {
 
-// Admin routes **************************************************************************************************************
-// Route pour les administrateurs
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.utilisateurs');
 
-Route::middleware(['auth', 'verified', CheckIfAdmin::class])->group(function () {
-    Route::resource('categories', CategorieController::class)->only([
-        'index', 'store', 'update','destroy',
-    ]);
-
-    Route::get('/admin/dashboard', function () {
-        return view('admin/dashboard');
-    })->name('admin.dashboard');
     
+
 });
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+// Admin routes **************************************************************************************************************
+// Route pour les administrateurs
+
+Route::middleware(['auth', 'verified', CheckIfAdmin::class])->group(function () {
+
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.utilisateurs');
+
+    Route::delete('/admin/dashboard/{id}', [AdminController::class, 'destroy'])->name('utilisateurs.destroy');
+
+    Route::resource('categories', CategorieController::class)->only([
+        'index', 'store', 'update','destroy',
+    ]);
+
+});
 
 
 require __DIR__.'/auth.php';
