@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\CheckIfAdmin;
+use App\Http\Middleware\CheckIfUtilisateur;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -15,21 +17,24 @@ Route::middleware('auth')->group(function () {
 });
 
 // utilisateur routes **************************************************************************************************************
-Route::get('/dashboard', function () {
+// Route pour les utilisateurs
+Route::get('/utilisateur/dashboard', function () {
     return view('utilisateur/dashboard');
-})->middleware(['auth', 'verified', 'role:Utilisateur'])->name('dashboard');
-
+})->middleware(['auth', 'verified', CheckIfUtilisateur::class])->name('utilisateur.dashboard');
 
 
 // Admin routes **************************************************************************************************************
-Route::get('/admin/dashboard', function () {
-    return view('admin/dashboard');
-})->middleware(['auth', 'verified', 'role:Admin'])->name('admin.dashboard');
+// Route pour les administrateurs
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified', CheckIfAdmin::class])->group(function () {
     Route::resource('categories', CategorieController::class)->only([
         'index', 'store', 'update','destroy',
     ]);
+
+    Route::get('/admin/dashboard', function () {
+        return view('admin/dashboard');
+    })->name('admin.dashboard');
+    
 });
 
 

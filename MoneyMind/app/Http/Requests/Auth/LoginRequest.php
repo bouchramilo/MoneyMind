@@ -53,7 +53,6 @@ class LoginRequest extends FormRequest
         RateLimiter::clear($this->throttleKey());
         // dd(Auth::user());
 
-        // mettre à jour la date de dernière connexion
         $user = Auth::user();
         $user->last_login = now();
         $user->save();

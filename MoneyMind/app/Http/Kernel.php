@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http;
+// namespace App\Http;
+namespace App\Http\Middleware;
+
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -45,10 +47,10 @@ class Kernel extends HttpKernel
         ],
     ];
 
-    protected $routeMiddleware = [
+    // protected $routeMiddleware = [
+    //     'role' => \App\Http\Middleware\RoleMiddleware::class,
+    // ];
 
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
-    ];
 
     /**
      * The application's middleware aliases.
@@ -69,6 +71,8 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
+        // 'role' => \App\Http\Middleware\RoleMiddleware::class,
+
+        'isAdmin' => \App\Http\Middleware\CheckIfAdmin::class,
     ];
 }

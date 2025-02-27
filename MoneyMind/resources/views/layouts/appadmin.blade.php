@@ -1,3 +1,4 @@
+// resources/views/layouts/appadmin.blade.php
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -20,24 +21,21 @@
             darkMode: 'class'
         }
     </script>
+
     <!-- Ajout du style pour x-cloak -->
     <style>
         [x-cloak] {
             display: none;
         }
     </style>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        @if (Auth::check() && Auth::user()->role === 'Utilisateur')
-            @include('layouts.navigation')
-        @elseif (Auth::check() && Auth::user()->role === 'Admin')
-            @include('layouts.nav_admin')
-        @endif
-
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        @include('layouts.nav_admin') <!-- Inclure le nav pour l'administration -->
 
         <!-- Page Heading -->
         @isset($header)
@@ -49,13 +47,9 @@
         @endisset
 
         <!-- Page Content -->
-        <main class="min-h-screen">
-            {{ $slot }}
+        <main>
+            {{ $slot }} <!-- Contenu de la page -->
         </main>
-
-
-        @include('layouts.footer')
-
     </div>
 </body>
 
