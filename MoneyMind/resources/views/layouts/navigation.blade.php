@@ -16,6 +16,31 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('utilisateur.reccurente')" :active="request()->routeIs('utilisateur.reccurente')">
+                        {{ __('dépenses réccurentes') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('utilisateur.depenses')" :active="request()->routeIs('utilisateur.depenses')">
+                        {{ __('dépenses') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('utilisateur.objectifs')" :active="request()->routeIs('utilisateur.objectifs')">
+                        {{ __('Objectifs Mensuel') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('utilisateur.souhaits')" :active="request()->routeIs('utilisateur.souhaits')">
+                        {{ __('Mes Souhaits') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('utilisateur.configuration')" :active="request()->routeIs('utilisateur.configuration')">
+                        {{ __('Configuration') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -81,6 +106,31 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-nav-link :href="route('utilisateur.dashboard')" :active="request()->routeIs('utilisateur.dashboard')">
                 {{ __('Dashboard') }}
+            </x-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-nav-link :href="route('utilisateur.reccurente')" :active="request()->routeIs('utilisateur.reccurente')">
+                {{ __('dépenses réccurentes') }}
+            </x-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-nav-link :href="route('utilisateur.depenses')" :active="request()->routeIs('utilisateur.depenses')">
+                {{ __('dépenses') }}
+            </x-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-nav-link :href="route('utilisateur.objectifs')" :active="request()->routeIs('utilisateur.objectifs')">
+                {{ __('Objectifs Mensuel') }}
+            </x-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-nav-link :href="route('utilisateur.souhaits')" :active="request()->routeIs('utilisateur.souhaits')">
+                {{ __('Mes Souhaits') }}
+            </x-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-nav-link :href="route('utilisateur.configuration')" :active="request()->routeIs('utilisateur.configuration')">
+                {{ __('Configuration') }}
             </x-nav-link>
         </div>
 

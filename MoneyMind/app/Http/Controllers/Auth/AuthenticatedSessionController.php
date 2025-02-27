@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -11,7 +10,7 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
+    /************************************************************************************************************************************************************************************
      * Display the login view.
      */
     public function create(): View
@@ -19,7 +18,7 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
-    /**
+    /**************************************************************************************************************************************************************************************
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
@@ -28,10 +27,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        if (Auth::user()->role === 'Admin') {
+            return redirect()->intended(route('admin.utilisateurs', absolute: false));
+        } else {
+            return redirect()->intended(route('utilisateur.dashboard', absolute: false));
+        }
     }
 
-    /**
+    /**************************************************************************************************************************************************************************************
      * Destroy an authenticated session.
      */
     public function destroy(Request $request): RedirectResponse
