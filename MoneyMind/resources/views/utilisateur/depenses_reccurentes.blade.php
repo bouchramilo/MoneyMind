@@ -19,17 +19,19 @@
                         <div class="grid grid-cols-3 gap-6 mb-8">
                             <div class="bg-white rounded-lg shadow p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-4">Total Mensuel</h3>
-                                <p class="text-3xl font-bold text-custom">1 250,00 €</p>
+                                <p class="text-3xl font-bold text-custom">{{ $totalDepenses }} €</p>
                             </div>
                             <div class="bg-white rounded-lg shadow p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-4">Nombre de Dépenses</h3>
-                                <p class="text-3xl font-bold text-custom">8</p>
+                                <p class="text-3xl font-bold text-custom">{{ $depenses_recc->count() }}</p>
                             </div>
                             <div class="bg-white rounded-lg shadow p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-4">Prochain Paiement</h3>
-                                <p class="text-3xl font-bold text-custom">15 Mars 2024</p>
+                                <p class="text-3xl font-bold text-custom">{{ $prochainPaiement->date_reccurente }}</p>
                             </div>
                         </div>
+
+
 
                         <div class="grid grid-cols-3 gap-6 mb-8">
                             <div class="col-span-2 bg-white rounded-lg shadow">
@@ -38,10 +40,11 @@
                                         <h2 class="text-lg font-medium text-gray-900">Liste des Dépenses</h2>
                                         <div class="flex space-x-4">
                                             <select class="border-gray-300 rounded-md text-sm">
-                                                <option>Tous les types</option>
-                                                <option>Mensuel</option>
-                                                <option>Trimestriel</option>
-                                                <option>Annuel</option>
+                                                <option value="">Toutes les catégories</option>
+                                                @foreach ($categories as $categorie)
+                                                    <option value="{{ $categorie->id }}">{{ $categorie->title }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                             <select class="border-gray-300 rounded-md text-sm">
                                                 <option>Trier par date</option>
@@ -60,7 +63,7 @@
                                                     Montant</th>
                                                 <th
                                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Fréquence</th>
+                                                    Catégorie</th>
                                                 <th
                                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     Prochain Paiement</th>
@@ -70,58 +73,109 @@
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                            <tr>
-                                                <td
-                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    Loyer</td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">850,00 €
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mensuel
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/03/2024
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> <button
-                                                        class="text-custom hover:text-custom-dark mr-3">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="text-red-600 hover:text-red-800"> <i
-                                                            class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td
-                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    Électricité
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">120,00 €
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mensuel
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15/03/2024
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> <button
-                                                        class="text-custom hover:text-custom-dark mr-3">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="text-red-600 hover:text-red-800"> <i
-                                                            class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            @foreach ($depenses_recc as $depense)
+                                                <tr>
+                                                    <td
+                                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                        {{ $depense->nom }}
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        {{ $depense->prix }} €
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        {{ $depense->categorie->title }}
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        {{ \Carbon\Carbon::parse($depense->date_reccurente)->translatedFormat('d/m/Y - H:i') }}
+
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap flex text-sm text-gray-500">
+                                                        <button class="text-custom hover:text-custom-dark mr-3">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <form
+                                                            action="{{ route('utilisateur.depenses_reccurentes.destroy', $depense->id) }}"
+                                                            method="post">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button class="text-red-600 hover:text-red-800">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-lg shadow p-6">
-                                <h2 class="text-lg font-medium text-gray-900 mb-6">Répartition des Dépenses</h2>
-                                <div id="chartDoughnut" class="h-64"></div>
+                            <div class="bg-gray-100 rounded-lg shadow p-4">
+                                <div>
+                                    <h2 class="text-lg font-medium text-gray-900 mb-6">Répartition des Dépenses</h2>
+                                    <div id="chartDoughnut" class="h-64"></div>
+                                </div>
+                                <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+                                    <div class="px-6 py-4 border-b border-gray-200">
+                                        <h3 class="text-lg font-medium text-gray-900">Nouvelle Dépense Récurrente</h3>
+                                    </div>
+                                    <form class="px-4 py-4 " method="post"
+                                        action="{{ route('utilisateur.depenses_reccurentes.store') }}">
+                                        @csrf
+                                        @method('POST')
+                                        <div class="mb-4">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Nom de la
+                                                dépense</label>
+                                            <x-text-input type="text" name="nom"
+                                                class="w-full border-gray-300 rounded-md shadow-sm"
+                                                placeholder="Ex: Loyer" />
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Montant</label>
+                                            <x-text-input type="number" name="prix"
+                                                class="w-full border-gray-300 rounded-md shadow-sm"
+                                                placeholder="0,00 €" />
+                                        </div>
+                                        <div class="mb-4">
+                                            <label
+                                                class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                                            <select name="categorie_id"
+                                                class="border-gray-300 shadow-sm appearance-none relative block w-full pl-10 pr-3 py-3
+                                              border dark:border-gray-600 rounded-xl
+                                              placeholder-gray-500 dark:placeholder-gray-400
+                                              text-gray-900 dark:text-white
+                                              bg-white dark:bg-gray-700
+                                              focus:outline-none focus:ring-2 focus:ring-emerald-500
+                                              focus:border-emerald-500 focus:z-10 sm:text-sm
+                                              transition-colors duration-200">
+                                                <option value="">Toutes les catégories</option>
+                                                @foreach ($categories as $categorie)
+                                                    <option value="{{ $categorie->id }}">{{ $categorie->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Date de
+                                                début</label>
+                                            <x-text-input type="date" name="date_reccurente"
+                                                class="w-full border-gray-300 rounded-md shadow-sm" />
+                                        </div>
+                                        <div class="px-6 py-4 flex justify-end space-x-4 rounded-b-lg">
+
+                                            <button type="submit"
+                                                class="rounded-md px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500">
+                                                Sauvegarder
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </main>
 
-                    <div id="modal"
-                        class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+                    {{-- <div id="modal"
+                        class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
                         <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
                             <div class="px-6 py-4 border-b border-gray-200">
                                 <h3 class="text-lg font-medium text-gray-900">Nouvelle Dépense Récurrente</h3>
@@ -161,7 +215,7 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- ********************************************************************************************************** --}}
                 </div>
@@ -200,10 +254,12 @@
                     show: false
                 },
                 data: [
-                    { value: 850, name: 'Loyer' },
-                    { value: 120, name: 'Électricité' },
-                    { value: 80, name: 'Internet' },
-                    { value: 200, name: 'Assurances' }
+                    @foreach ($depensesParCategorie as $depenseParCategorie)
+                        {
+                            value: {{ $depenseParCategorie->total }},
+                            name: "{{ $depenseParCategorie->categorie->title }}"
+                        },
+                    @endforeach
                 ]
             }]
         };

@@ -15,30 +15,34 @@
                         <div class="col-span-2">
                             <div class="bg-white rounded-lg shadow p-6 mb-8">
                                 <h2 class="text-lg font-medium mb-6">Ajouter une dépense</h2>
-                                <form class="space-y-4">
+                                <form class="space-y-4" method="POST"
+                                    action="{{ route('utilisateur.depenses.store') }}">
+                                    @csrf
+                                    @method('POST')
                                     <div class="grid grid-cols-3 gap-4">
                                         <div>
                                             <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
-                                            <input type="text"
+                                            <input type="text" name="nom"
                                                 class="w-full border-gray-300 focus:border-custom focus:ring-custom"
                                                 placeholder="Nom de la dépense">
                                         </div>
                                         <div>
                                             <label class="block text-sm font-medium text-gray-700 mb-1">Montant
                                                 (€)</label>
-                                            <input type="text"
+                                            <input type="text" name="prix"
                                                 class="w-full border-gray-300 focus:border-custom focus:ring-custom"
                                                 placeholder="0.00">
                                         </div>
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
-                                            <select
+                                            <select name="categorie_id"
                                                 class="w-full border-gray-300 focus:border-custom focus:ring-custom">
-                                                <option>Alimentation</option>
-                                                <option>Transport</option>
-                                                <option>Logement</option>
-                                                <option>Loisirs</option>
+                                                <option value="">Toutes les catégories</option>
+                                                @foreach ($categories as $categorie)
+                                                    <option value="{{ $categorie->id }}">{{ $categorie->title }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -52,22 +56,21 @@
                             </div>
 
                             <div class="bg-white rounded-lg shadow p-6">
-                                <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center justify-end mb-6">
 
                                     <div class="flex space-x-4">
-                                        <div class="flex items-center space-x-2">
+                                        {{-- <div class="flex items-center space-x-2">
                                             <input type="date"
                                                 class="border-gray-300 focus:border-custom focus:ring-custom text-sm">
                                             <span class="text-gray-500">à</span>
                                             <input type="date"
                                                 class="border-gray-300 focus:border-custom focus:ring-custom text-sm">
-                                        </div>
+                                        </div> --}}
                                         <select class="border-gray-300 focus:border-custom focus:ring-custom text-sm">
-                                            <option>Toutes les catégories</option>
-                                            <option>Alimentation</option>
-                                            <option>Transport</option>
-                                            <option>Logement</option>
-                                            <option>Loisirs</option>
+                                            <option value="">Toutes les catégories</option>
+                                            @foreach ($categories as $categorie)
+                                                <option value="{{ $categorie->id }}">{{ $categorie->title }}</option>
+                                            @endforeach
                                         </select>
                                         <button
                                             class="!rounded-button bg-gray-100 text-gray-700 px-4 py-2 text-sm font-medium hover:bg-gray-200">
@@ -75,7 +78,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <h2 class="text-lg font-medium">Liste des dépenses (15)</h2>
+                                <h2 class="text-lg font-medium">Liste des dépenses ({{ $depenses->count() }})</h2>
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full">
                                         <thead>
@@ -98,41 +101,35 @@
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                            <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">15/03/2024
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Courses
-                                                    Carrefour</td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">89,50 €
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"> <span
-                                                        class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">Alimentation</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> <button
-                                                        class="text-custom hover:text-custom/80 mr-3"><i
-                                                            class="fas fa-edit"></i></button> <button
-                                                        class="text-red-600 hover:text-red-800"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">14/03/2024
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Essence
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">65,00 €
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    <span
-                                                        class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Transport</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> <button
-                                                        class="text-custom hover:text-custom/80 mr-3"><i
-                                                            class="fas fa-edit"></i></button> <button
-                                                        class="text-red-600 hover:text-red-800"><i
-                                                            class="fas fa-trash"></i></button>
-                                                </td>
-                                            </tr>
+                                            @foreach ($depenses as $depense)
+                                                <tr>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                        {{ \Carbon\Carbon::parse($depense->created_at)->translatedFormat('d F Y - H:i') }}
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                        {{ $depense->nom }}
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                        {{ $depense->prix }} €
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"> <span
+                                                            class="px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full">{{ $depense->categorie->title }}</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm flex text-gray-500">
+                                                        <button class="text-custom hover:text-custom/80 mr-3"><i
+                                                                class="fas fa-edit"></i>
+                                                        </button>
+                                                        <form action="{{ route('utilisateur.depenses.destroy', $depense->id) }}" method="post">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button class="text-red-600 hover:text-red-800"><i
+                                                                    class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -146,28 +143,23 @@
                                     <div class="flex justify-between items-center"> <span class="text-gray-600">Total
                                             des
                                             dépenses</span>
-                                        <span class="text-2xl font-semibold text-gray-900">854,50 €</span>
+                                        <span class="text-2xl font-semibold text-gray-900">{{ $totalDepenses }}
+                                            €</span>
                                     </div>
                                     <div class="h-px bg-gray-200"></div>
                                     <div>
                                         <h3 class="text-sm font-medium text-gray-700 mb-4">Par catégorie</h3>
                                         <div class="space-y-3">
-                                            <div class="flex justify-between items-center">
-                                                <span class="text-sm text-gray-600">Alimentation</span>
-                                                <span class="text-sm font-medium text-gray-900">320,50 €</span>
-                                            </div>
-                                            <div class="flex justify-between items-center">
-                                                <span class="text-sm text-gray-600">Transport</span>
-                                                <span class="text-sm font-medium text-gray-900">185,00 €</span>
-                                            </div>
-                                            <div class="flex justify-between items-center">
-                                                <span class="text-sm text-gray-600">Logement</span>
-                                                <span class="text-sm font-medium text-gray-900">250,00 €</span>
-                                            </div>
-                                            <div class="flex justify-between items-center">
-                                                <span class="text-sm text-gray-600">Loisirs</span>
-                                                <span class="text-sm font-medium text-gray-900">99,00 €</span>
-                                            </div>
+                                            @foreach ($depensesParCategorie as $depenseParCategorie)
+                                                <div class="flex justify-between items-center">
+                                                    <span
+                                                        class="text-sm text-gray-600">{{ $depenseParCategorie->categorie->title }}</span>
+                                                    <span
+                                                        class="text-sm font-medium text-gray-900">{{ $depenseParCategorie->total }}
+                                                        €</span>
+                                                </div>
+                                            @endforeach
+
                                         </div>
                                     </div>
                                 </div>
@@ -186,6 +178,9 @@
         </div>
     </div>
 
+
+
+
     <script>
         var chartDom = document.getElementById('chart');
         var myChart = echarts.init(chartDom);
@@ -197,22 +192,13 @@
             series: [{
                 type: 'pie',
                 radius: '70%',
-                data: [{
-                        value: 320.5,
-                        name: 'Alimentation'
-                    },
-                    {
-                        value: 185,
-                        name: 'Transport'
-                    },
-                    {
-                        value: 250,
-                        name: 'Logement'
-                    },
-                    {
-                        value: 99,
-                        name: 'Loisirs'
-                    }
+                data: [
+                    @foreach ($depensesParCategorie as $depenseParCategorie)
+                        {
+                            value: {{ $depenseParCategorie->total }},
+                            name: "{{ $depenseParCategorie->categorie->title }}"
+                        },
+                    @endforeach
                 ],
                 emphasis: {
                     itemStyle: {

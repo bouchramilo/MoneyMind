@@ -13,4 +13,9 @@ class Categorie extends Model
     protected $fillable = [
         'title',
     ];
+
+    public function depenses()
+    {
+        return $this->hasMany(Depense::class);
+    }
 }

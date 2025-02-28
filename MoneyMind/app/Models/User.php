@@ -53,4 +53,14 @@ class User extends Authenticatable
         ];
 
     }
+
+    // les relations
+    public function depenses()
+    {
+        return $this->hasMany(Depense::class);
+    }
+    public function depenses_reccurentes()
+    {
+        return $this->hasMany(DepenseRecurrente::class);
+    }
 }

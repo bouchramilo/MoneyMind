@@ -1,8 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
+use App\Models\Depense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepenseController extends Controller
 {
@@ -11,7 +13,21 @@ class DepenseController extends Controller
      */
     public function index()
     {
-        return view("utilisateur/depenses");
+
+        $categories = Categorie::all();
+
+        $depenses = Depense::where("user_id", "=", Auth::user()->id)->with("categorie")->get();
+
+        $totalDepenses = Auth::user()->depenses()->sum('prix');
+
+        $depensesParCategorie =  Auth::user()->depenses()
+            ->select('categorie_id', \DB::raw('SUM(prix) as total'))
+            ->groupBy('categorie_id')
+            ->with("categorie")->get();
+
+            // dd($depensesParCategorie);
+
+        return view("utilisateur/depenses", compact(["categories", "depenses", "totalDepenses", "depensesParCategorie"]));
 
     }
 
@@ -26,9 +42,25 @@ class DepenseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom'          => ['required', 'string', 'max:255'],
+            'prix'         => ['required', 'numeric'],
+            'categorie_id' => ['nullable', 'integer', 'exists:categories,id'],
+        ]);
+
+        // dd(Auth::id());
+
+        Depense::create([
+            'nom'          => $request->nom,
+            'prix'         => $request->prix,
+            'categorie_id' => $request->categorie_id,
+            'user_id'      => Auth::id(),
+        ]);
+
+        return redirect()->route('utilisateur.depenses');
     }
 
     /**
@@ -60,6 +92,9 @@ class DepenseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $depense = Depense::findOrFail($id);
+        $depense->delete();
+
+        return redirect()->route('utilisateur.depenses');
     }
 }
