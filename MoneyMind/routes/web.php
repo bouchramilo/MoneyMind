@@ -40,10 +40,16 @@ Route::middleware(['auth', 'verified', CheckIfUtilisateur::class])->group(functi
     Route::get('/utilisateur/depenses_reccurentes', [DepenseRecurrenteController::class, 'index'])->name('utilisateur.reccurente');
     Route::post('/utilisateur/depenses_reccurentes/store', [DepenseRecurrenteController::class, 'store'])->name('utilisateur.depenses_reccurentes.store');
     Route::delete("/utilisateur/depenses_reccurentes/destroy/{depense}", [DepenseRecurrenteController::class, 'destroy'])->name('utilisateur.depenses_reccurentes.destroy');
+    // Route::put("/utilisateur/depenses_reccurentes/update/{depense}", [DepenseRecurrenteController::class, 'update'])->name('utilisateur.depenses_reccurentes.update');
+
+
+    Route::get('/utilisateur/souhaits', [SouhaitsController::class, 'index'])->name('utilisateur.souhaits');
+    Route::post('/utilisateur/listesouhaits/store', [SouhaitsController::class, 'store'])->name('utilisateur.souhaits.store');
+    Route::delete("/utilisateur/listesouhaits/destroy/{souhait}", [SouhaitsController::class, 'destroy'])->name('utilisateur.souhaits.destroy');
+    Route::put("/utilisateur/listesouhaits/update", [SouhaitsController::class, 'update'])->name('utilisateur.souhaits.update');
 
 
     Route::get('/utilisateur/objectifsMensuel', [ObjectifController::class, 'index'])->name('utilisateur.objectifs');
-    Route::get('/utilisateur/souhaits', [SouhaitsController::class, 'index'])->name('utilisateur.souhaits');
     Route::get('utilisateur/configuration', [ConfigAlerteController::class, 'index'])->name('utilisateur.configuration');
 
 

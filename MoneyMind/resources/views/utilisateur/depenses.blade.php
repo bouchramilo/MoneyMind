@@ -22,28 +22,50 @@
                                     <div class="grid grid-cols-3 gap-4">
                                         <div>
                                             <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
-                                            <input type="text" name="nom"
+                                            <x-text-input type="text" name="nom"
                                                 class="w-full border-gray-300 focus:border-custom focus:ring-custom"
-                                                placeholder="Nom de la dépense">
+                                                placeholder="Nom de la dépense" />
+                                            @error('nom')
+                                                <div>
+                                                    <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div>
                                             <label class="block text-sm font-medium text-gray-700 mb-1">Montant
                                                 (€)</label>
-                                            <input type="text" name="prix"
+                                            <x-text-input type="text" name="prix"
                                                 class="w-full border-gray-300 focus:border-custom focus:ring-custom"
-                                                placeholder="0.00">
+                                                placeholder="0.00" />
+                                            @error('prix')
+                                                <div>
+                                                    <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div>
                                             <label
                                                 class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
                                             <select name="categorie_id"
-                                                class="w-full border-gray-300 focus:border-custom focus:ring-custom">
+                                                class="appearance-none relative block w-full pl-10 pr-3 py-3
+                                              border border-gray-300 dark:border-gray-600 rounded-xl
+                                              placeholder-gray-500 dark:placeholder-gray-400
+                                              text-gray-900 dark:text-white
+                                              bg-white dark:bg-gray-700
+                                              focus:outline-none focus:ring-2 focus:ring-emerald-500
+                                              focus:border-emerald-500 focus:z-10 sm:text-sm
+                                              transition-colors duration-200">
                                                 <option value="">Toutes les catégories</option>
                                                 @foreach ($categories as $categorie)
                                                     <option value="{{ $categorie->id }}">{{ $categorie->title }}
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('categorie_id')
+                                                <div>
+                                                    <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="flex justify-end">
@@ -59,14 +81,15 @@
                                 <div class="flex items-center justify-end mb-6">
 
                                     <div class="flex space-x-4">
-                                        {{-- <div class="flex items-center space-x-2">
-                                            <input type="date"
-                                                class="border-gray-300 focus:border-custom focus:ring-custom text-sm">
-                                            <span class="text-gray-500">à</span>
-                                            <input type="date"
-                                                class="border-gray-300 focus:border-custom focus:ring-custom text-sm">
-                                        </div> --}}
-                                        <select class="border-gray-300 focus:border-custom focus:ring-custom text-sm">
+                                       
+                                        <select class="appearance-none relative block w-full pl-10 pr-3 py-2
+                                              border border-gray-300 dark:border-gray-600 rounded-xl
+                                              placeholder-gray-500 dark:placeholder-gray-400
+                                              text-gray-900 dark:text-white
+                                              bg-white dark:bg-gray-700
+                                              focus:outline-none focus:ring-2 focus:ring-emerald-500
+                                              focus:border-emerald-500 focus:z-10 sm:text-sm
+                                              transition-colors duration-200">
                                             <option value="">Toutes les catégories</option>
                                             @foreach ($categories as $categorie)
                                                 <option value="{{ $categorie->id }}">{{ $categorie->title }}</option>
@@ -119,7 +142,9 @@
                                                         <button class="text-custom hover:text-custom/80 mr-3"><i
                                                                 class="fas fa-edit"></i>
                                                         </button>
-                                                        <form action="{{ route('utilisateur.depenses.destroy', $depense->id) }}" method="post">
+                                                        <form
+                                                            action="{{ route('utilisateur.depenses.destroy', $depense->id) }}"
+                                                            method="post">
                                                             @method('DELETE')
                                                             @csrf
                                                             <button class="text-red-600 hover:text-red-800"><i
@@ -140,11 +165,30 @@
                             <div class="bg-white rounded-lg shadow p-6 mb-8">
                                 <h2 class="text-lg font-medium mb-6">Résumé du mois</h2>
                                 <div class="space-y-4">
-                                    <div class="flex justify-between items-center"> <span class="text-gray-600">Total
-                                            des
-                                            dépenses</span>
-                                        <span class="text-2xl font-semibold text-gray-900">{{ $totalDepenses }}
-                                            €</span>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">
+                                            Salaire
+                                        </span>
+                                        <span class="text-2xl font-semibold text-gray-900">
+                                            {{ Auth::user()->salaire }} €
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-600">
+                                            Budjet
+                                        </span>
+                                        <span class="text-2xl font-semibold text-gray-900">
+                                            {{ Auth::user()->Budjet }} €
+                                        </span>
+                                    </div>
+                                    <div class="h-px bg-gray-200"></div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center"> <span class="text-gray-600">
+                                            Total des dépenses</span>
+                                        <span class="text-2xl font-semibold text-gray-900">
+                                            {{ $totalDepenses }} €
+                                        </span>
                                     </div>
                                     <div class="h-px bg-gray-200"></div>
                                     <div>

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->enum('role', ['Admin','Utilisateur'])->default('Utilisateur');
             $table->string('photo')->nullable();
             $table->decimal('salaire', 10, 2);
+            $table->decimal('Budjet', 10, 2);
+            $table->date('date_credit');
             $table->timestamp('last_login')->useCurrent();
             $table->rememberToken();
             $table->timestamps();

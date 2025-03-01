@@ -60,6 +60,11 @@ class DepenseController extends Controller
             'user_id'      => Auth::id(),
         ]);
 
+        $user = Auth::user();
+        Auth::user()->update([
+            'Budjet' => $user->Budjet - $request->prix,
+        ]);
+
         return redirect()->route('utilisateur.depenses');
     }
 

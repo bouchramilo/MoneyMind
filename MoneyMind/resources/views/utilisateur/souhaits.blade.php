@@ -15,7 +15,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="bg-gray-50 rounded-lg p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-2">Total de la liste</h3>
-                                <p class="text-3xl font-bold text-custom">2,450 €</p>
+                                <p class="text-3xl font-bold text-emerald-600">{{ $totalSouhaits }} €</p>
                             </div>
                             <div class="bg-gray-50 rounded-lg p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-2">Montant économisé</h3>
@@ -26,7 +26,7 @@
                                 <div class="relative pt-1">
                                     <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
                                         <div style="width:35%"
-                                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-custom">
+                                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
                                         </div>
                                     </div>
                                     <p class="text-right text-sm font-medium text-gray-600">35%</p>
@@ -35,83 +35,146 @@
                         </div>
                     </div>
 
+                    <div class="bg-white rounded-lg shadow p-6 mb-8">
+                        <h2 class="text-lg font-medium mb-6">Ajouter une souhait</h2>
+                        <form class="space-y-4" method="POST" action="{{ route('utilisateur.souhaits.store') }}">
+                            @csrf
+                            @method('POST')
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                                    <x-text-input type="text" name="nom"
+                                        class="w-full border-gray-300 focus:border-emerald-600 focus:ring-emerald-600"
+                                        placeholder="Nom de la souhait" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Montant
+                                        (€)</label>
+                                    <x-text-input type="number" name="prix"
+                                        class="w-full border-gray-300 focus:border-emerald-600 focus:ring-emerald-600"
+                                        placeholder="10.00" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Montant
+                                        (€)</label>
+                                    <select name="priorite"
+                                        class="w-full border-gray-300 focus:border-emerald-600 focus:ring-emerald-600"
+                                        placeholder="10.00">
+                                        <option value="">-- Priorité --</option>
+                                        <option value="élevée">Elevée</option>
+                                        <option value="moyenne">Moyenne</option>
+                                        <option value="faible">Faible</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class=" flex justify-end items-end">
+                                <button type="submit"
+                                    class="bg-emerald-600 h-12 dark:bg-emerald-400 text-white px-4 py-2 text-sm font-medium hover:bg-emerald-500 rounded-md">
+                                    <i class="fas fa-plus mr-2"></i>Ajouter
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
                     <div class="bg-white rounded-lg shadow overflow-hidden">
                         <div class="p-6 border-b border-gray-200">
+
                             <div class="flex items-center justify-between">
-                                <h2 class="text-xl font-semibold text-gray-900">Articles</h2>
-                                <div class="flex items-center space-x-4">
-                                    <button type="button"
-                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium text-white bg-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 focus:outline-none">
-                                        <i class="fas fa-plus mr-2"></i>
-                                        Ajouter un article
-                                    </button>
-                                </div>
+                                <h2 class="text-xl font-semibold text-gray-900">
+                                    Articles ({{ $listeSouhaits->count() }})
+                                </h2>
                             </div>
                         </div>
 
                         <div class="divide-y divide-gray-200">
-                            <div class="p-6">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex-1">
-                                        <h3 class="text-lg font-medium text-gray-900">iPhone 15 Pro</h3>
-                                        <div class="mt-1 flex items-center space-x-2"> <span
-                                                class="text-sm text-gray-500">Prix
-                                                cible:</span>
-                                            <span class="font-medium text-gray-900">1,299 €</span>
-                                            <span class="text-sm text-gray-500">Économisé:</span>
-                                            <span class="font-medium text-gray-900">450 €</span>
-                                        </div>
-                                        <div class="mt-4 relative pt-1">
-                                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                                                <div style="width:35%"
-                                                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-custom">
-                                                </div>
-                                            </div>
-                                            <p class="text-right text-sm font-medium text-gray-600">35%</p>
-                                        </div>
-                                    </div>
-                                    <div class="ml-4 flex items-center space-x-3"> <button
-                                            class="!rounded-button p-2 text-gray-400 hover:text-custom">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="!rounded-button p-2 text-gray-400 hover:text-red-600"> <i
-                                                class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="p-6">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex-1">
-                                        <h3 class="text-lg font-medium text-gray-900">MacBook Air M2</h3>
-                                        <div class="mt-1 flex items-center space-x-2">
-                                            <span class="text-sm text-gray-500">Prix cible:</span>
-                                            <span class="font-medium text-gray-900">1,499 €</span>
-                                            <span class="text-sm text-gray-500">Économisé:</span>
-                                            <span class="font-medium text-gray-900">750 €</span>
-                                        </div>
-                                        <div class="mt-4 relative pt-1">
-                                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                                                <div style="width:50%"
-                                                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-custom">
-                                                </div>
+                            {{-- @foreach ($listeSouhaits as $souhait)
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-medium text-gray-900">{{ $souhait->nom }}</h3>
+                                            <div class="mt-1 flex items-center space-x-2">
+                                                <span class="text-sm text-gray-500">Prix cible:</span>
+                                                <span class="font-medium text-gray-900">{{ $souhait->prix }} €</span>
+                                                <span class="text-sm text-gray-500">Priorité:</span>
+                                                <span class="font-medium text-gray-900">{{ $souhait->priorite }}</span>
+                                                <span class="text-sm text-gray-500">Économisé:</span>
+                                                <span class="font-medium text-gray-900">450 €</span>
                                             </div>
-                                            <p class="text-right text-sm font-medium text-gray-600">50%</p>
+                                            <div class="mt-4 relative pt-1">
+                                                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                                                    <div style="width:35%"
+                                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
+                                                    </div>
+                                                </div>
+                                                <p class="text-right text-sm font-medium text-gray-600">35%</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="ml-4 flex items-center space-x-3"> <button
-                                            class="!rounded-button p-2 text-gray-400 hover:text-custom">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="!rounded-button p-2 text-gray-400 hover:text-red-600"> <i
-                                                class="fas fa-trash"></i>
-                                        </button>
+                                        <div class="ml-4 flex items-center space-x-3">
+                                            <!-- Bouton Modifier avec data-id dynamique -->
+                                            <button class="edit-btn p-2 text-gray-400 hover:text-emerald-600"
+                                                data-id="{{ $souhait->id }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+
+                                            <!-- Formulaire de suppression -->
+                                            <form action="{{ route('utilisateur.souhaits.destroy', $souhait->id) }}"
+                                                method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class=" p-2 text-gray-400 hover:text-red-600">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach --}}
+
+
+
+                            @foreach ($listeSouhaits as $souhait)
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-medium text-gray-900">{{ $souhait->nom }}</h3>
+                                            <div class="mt-1 flex items-center space-x-2">
+                                                <span class="text-sm text-gray-500">Prix cible:</span>
+                                                <span class="font-medium text-gray-900">{{ $souhait->prix }} €</span>
+                                                <span class="text-sm text-gray-500">Priorité:</span>
+                                                <span class="font-medium text-gray-900">{{ $souhait->priorite }}</span>
+                                                <span class="text-sm text-gray-500">Économisé:</span>
+                                                <span class="font-medium text-gray-900">450 €</span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4 flex items-center space-x-3">
+                                            <!-- Bouton Modifier avec les data-* -->
+                                            <button class="edit-btn p-2 text-gray-400 hover:text-emerald-600"
+                                                data-id="{{ $souhait->id }}" data-nom="{{ $souhait->nom }}"
+                                                data-prix="{{ $souhait->prix }}"
+                                                data-priorite="{{ $souhait->priorite }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+
+                                            <!-- Bouton Supprimer -->
+                                            <form action="{{ route('utilisateur.souhaits.destroy', $souhait->id) }}"
+                                                method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="p-2 text-gray-400 hover:text-red-600">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+
+
                         </div>
                     </div>
+
 
                     {{-- ********************************************************************************************************** --}}
                 </div>
@@ -127,39 +190,48 @@
             <div
                 class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div class="absolute right-0 top-0 pr-4 pt-4">
-                    <button type="button" class="!rounded-button text-gray-400 hover:text-gray-500"> <i
+                    <button type="button" class="text-gray-400 hover:text-gray-500"> <i
                             class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="sm:flex sm:items-start">
                     <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900 mb-6">Ajouter un article</h3>
-                        <form>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 mb-6">Modifier un article</h3>
+                        <form method="post" action="{{ route('utilisateur.souhaits.update') }}">
+                            @csrf
+                            @method('PUT')
                             <div class="space-y-4">
-                                <div> <label class="block text-sm font-medium text-gray-700">Nom de l'article</label>
-                                    <input type="text"
-                                        class="mt-1 block w-full !rounded-button border-gray-300 shadow-sm focus:border-custom focus:ring-custom sm:text-sm"
-                                        placeholder="Entrez le nom de l'article">
+                                <input type="hidden" name='souhaits_id'>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Nom de l'article</label>
+                                    <input type="text" name="nom"
+                                        class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
+                                        placeholder='Entrez le nom de souhaits'>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Prix cible</label>
-                                    <input type="number"
-                                        class="mt-1 block w-full !rounded-button border-gray-300 shadow-sm focus:border-custom focus:ring-custom sm:text-sm"
+                                    <input type="number" name="prix"
+                                        class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
                                         placeholder="0.00">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Montant économisé</label>
-                                    <input type="number"
-                                        class="mt-1 block w-full !rounded-button border-gray-300 shadow-sm focus:border-custom focus:ring-custom sm:text-sm"
-                                        placeholder="0.00">
+                                    <select id="priorite" name="priorite"
+                                        class="form-input mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
+                                        placeholder='Priorité'>
+                                        <option value="">-- Priorité --</option>
+                                        <option value="élevée">Elevée</option>
+                                        <option value="moyenne">Moyenne</option>
+                                        <option value="faible">Faible</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="mt-6 flex justify-end space-x-3"> <button type="button"
-                                    class="!rounded-button inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
                                     Annuler
                                 </button>
                                 <button type="submit"
-                                    class="!rounded-button inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-custom border border-transparent hover:bg-indigo-700">
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent hover:bg-indigo-700">
                                     Sauvegarder
                                 </button>
                             </div>
@@ -172,5 +244,55 @@
 
     {{-- ********** --}}
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("modal");
+            const backdrop = document.getElementById("modal-backdrop");
+            const closeButton = modal.querySelector(".fas.fa-times").parentElement;
+            const editButtons = document.querySelectorAll(".edit-btn");
+
+            // Sélection des champs du formulaire
+            const idInput = modal.querySelector("input[name='souhaits_id']");
+            const nomInput = modal.querySelector("input[placeholder='Entrez le nom de souhaits']");
+            const prixInput = modal.querySelector("input[placeholder='0.00']");
+            const prioriteSelect = modal.querySelector("#priorite"); // Sélection du champ <select>
+
+            function openModal(souhait) {
+                console.log("Modifier le souhait avec l'ID :", souhait.id);
+                modal.classList.remove("hidden");
+                backdrop.classList.remove("hidden");
+
+                // Remplir les champs du formulaire
+                idInput.value = souhait.id;
+                nomInput.value = souhait.nom;
+                prixInput.value = souhait.prix;
+
+                // Sélectionner la bonne option pour la priorité
+                prioriteSelect.value = souhait.priorite;
+            }
+
+            function closeModal() {
+                modal.classList.add("hidden");
+                backdrop.classList.add("hidden");
+            }
+
+            // Écouteur d'événement sur chaque bouton Modifier
+            editButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const souhait = {
+                        id: this.getAttribute("data-id"),
+                        nom: this.getAttribute("data-nom"),
+                        prix: this.getAttribute("data-prix"),
+                        priorite: this.getAttribute("data-priorite"),
+                    };
+
+                    openModal(souhait);
+                });
+            });
+
+            closeButton.addEventListener("click", closeModal);
+            backdrop.addEventListener("click", closeModal);
+        });
+    </script>
 
 </x-app-layout>

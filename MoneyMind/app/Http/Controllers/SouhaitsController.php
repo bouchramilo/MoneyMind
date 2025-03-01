@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\ListeSouhaits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SouhaitsController extends Controller
 {
@@ -11,8 +12,12 @@ class SouhaitsController extends Controller
      */
     public function index()
     {
-        return view("utilisateur/souhaits");
+        $listeSouhaits = ListeSouhaits::where("user_id", "=", Auth::user()->id)->get();
 
+        $totalSouhaits = Auth::user()->list_souhaits()->sum('prix');
+        // dd($listeSouhaits);
+
+        return view("utilisateur/souhaits", compact(["listeSouhaits", "totalSouhaits"]));
     }
 
     /**
@@ -28,7 +33,22 @@ class SouhaitsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom'      => ['required', 'string', 'max:255'],
+            'prix'     => ['required', 'numeric'],
+            'priorite' => ['required', 'string', 'max:255'],
+        ]);
+
+        // dd(Auth::id());
+
+        ListeSouhaits::create([
+            'nom'      => $request->nom,
+            'prix'     => $request->prix,
+            'priorite' => $request->priorite,
+            'user_id'  => Auth::id(),
+        ]);
+
+        return redirect()->route('utilisateur.souhaits');
     }
 
     /**
@@ -50,9 +70,24 @@ class SouhaitsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'nom'      => ['required', 'string', 'max:255'],
+            'prix'     => ['required', 'numeric'],
+            'priorite' => ['required', 'string', 'max:255'],
+        ]);
+
+        $souhait = ListeSouhaits::findOrFail($request->souhaits_id);
+        
+        $souhait->update([
+            'nom'      => $request->nom,
+            'prix'     => $request->prix,
+            'priorite' => $request->priorite,
+        ]);
+
+        return redirect()->route('utilisateur.souhaits');
     }
 
     /**
@@ -60,6 +95,9 @@ class SouhaitsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $depense = ListeSouhaits::findOrFail($id);
+        $depense->delete();
+
+        return redirect()->route('utilisateur.souhaits');
     }
 }

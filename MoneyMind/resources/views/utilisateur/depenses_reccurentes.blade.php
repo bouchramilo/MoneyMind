@@ -16,18 +16,23 @@
                             <h1 class="text-2xl font-semibold text-gray-900">Mes Dépenses Récurrentes</h1>
                         </div> --}}
 
-                        <div class="grid grid-cols-3 gap-6 mb-8">
+                        <div class="grid grid-cols-4 gap-6 mb-8">
                             <div class="bg-white rounded-lg shadow p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-4">Total Mensuel</h3>
                                 <p class="text-3xl font-bold text-custom">{{ $totalDepenses }} €</p>
                             </div>
                             <div class="bg-white rounded-lg shadow p-6">
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">Nombre de Dépenses</h3>
-                                <p class="text-3xl font-bold text-custom">{{ $depenses_recc->count() }}</p>
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">Salaire</h3>
+                                <p class="text-3xl font-bold text-custom">{{ Auth::user()->salaire }}</p>
+                            </div>
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">Budjet</h3>
+                                <p class="text-3xl font-bold text-custom">{{ Auth::user()->Budjet }}</p>
                             </div>
                             <div class="bg-white rounded-lg shadow p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-4">Prochain Paiement</h3>
-                                <p class="text-3xl font-bold text-custom">{{ $prochainPaiement->date_reccurente }}</p>
+                                <p class="text-3xl font-bold text-custom">
+                                    {{ $prochainPaiement->date_reccurente ?? null }}</p>
                             </div>
                         </div>
 
@@ -37,7 +42,8 @@
                             <div class="col-span-2 bg-white rounded-lg shadow">
                                 <div class="p-6">
                                     <div class="flex justify-between items-center mb-6">
-                                        <h2 class="text-lg font-medium text-gray-900">Liste des Dépenses</h2>
+                                        <h2 class="text-lg font-medium text-gray-900">Liste des Dépenses
+                                            ({{ $depenses_recc->count() }})</h2>
                                         <div class="flex space-x-4">
                                             <select class="border-gray-300 rounded-md text-sm">
                                                 <option value="">Toutes les catégories</option>
@@ -129,12 +135,22 @@
                                             <x-text-input type="text" name="nom"
                                                 class="w-full border-gray-300 rounded-md shadow-sm"
                                                 placeholder="Ex: Loyer" />
+                                            @error('nom')
+                                                <div>
+                                                    <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="mb-4">
                                             <label class="block text-sm font-medium text-gray-700 mb-2">Montant</label>
                                             <x-text-input type="number" name="prix"
                                                 class="w-full border-gray-300 rounded-md shadow-sm"
                                                 placeholder="0,00 €" />
+                                            @error('prix')
+                                                <div>
+                                                    <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="mb-4">
                                             <label
@@ -154,12 +170,22 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('categorie_id')
+                                                <div>
+                                                    <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="mb-4">
                                             <label class="block text-sm font-medium text-gray-700 mb-2">Date de
                                                 début</label>
                                             <x-text-input type="date" name="date_reccurente"
                                                 class="w-full border-gray-300 rounded-md shadow-sm" />
+                                            @error('date_reccurente')
+                                                <div>
+                                                    <p class="mt-1 text-sm text-red-700">{{ $message }}</p>
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="px-6 py-4 flex justify-end space-x-4 rounded-b-lg">
 

@@ -24,6 +24,8 @@ class User extends Authenticatable
         'password',
         'photo',
         'salaire',
+        'date_credit',
+        'Budjet',
     ];
 
     protected $casts = [
@@ -62,5 +64,13 @@ class User extends Authenticatable
     public function depenses_reccurentes()
     {
         return $this->hasMany(DepenseRecurrente::class);
+    }
+    public function list_souhaits()
+    {
+        return $this->hasMany(ListeSouhaits::class);
+    }
+    public function objectifs()
+    {
+        return $this->hasMany(ObjectifMensuel::class);
     }
 }

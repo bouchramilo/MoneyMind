@@ -22,7 +22,7 @@
                                 <div class="relative pt-1">
                                     <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                                         <div
-                                            class="w-[78.75%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-custom">
+                                            class="w-[78.75%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
                                         </div>
                                     </div>
                                 </div>
@@ -42,12 +42,12 @@
                                             <span class="text-gray-500 sm:text-sm">€</span>
                                         </div>
                                         <input type="text"
-                                            class="!rounded-button block w-full pl-7 pr-12 sm:text-sm border-gray-300"
+                                            class=" block w-full pl-7 pr-12 sm:text-sm border-gray-300"
                                             value="500">
                                     </div>
                                 </div>
                                 <button type="submit"
-                                    class="!rounded-button w-full bg-custom text-white px-4 py-2 text-sm font-medium hover:bg-custom/90">
+                                    class=" w-full bg-emerald-600 text-white px-4 py-2 text-sm font-medium hover:bg-emerald-600">
                                     Mettre à jour
                                 </button>
                             </form>
@@ -71,10 +71,10 @@
                                                 <p class="text-sm text-gray-500">Échéance: Décembre 2024</p>
                                             </div>
                                             <div class="flex space-x-2">
-                                                <button class="!rounded-button p-2 text-gray-400 hover:text-gray-500">
+                                                <button class=" p-2 text-gray-400 hover:text-gray-500">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </button>
-                                                <button class="!rounded-button p-2 text-gray-400 hover:text-gray-500">
+                                                <button class=" p-2 text-gray-400 hover:text-gray-500">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -94,7 +94,7 @@
                                             </div>
                                             <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                                                 <div
-                                                    class="w-[65%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-custom">
+                                                    class="w-[65%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
                                                 </div>
                                             </div>
                                         </div>
@@ -107,10 +107,10 @@
                                                 <p class="text-sm text-gray-500">Échéance: Juillet 2024</p>
                                             </div>
                                             <div class="flex space-x-2">
-                                                <button class="!rounded-button p-2 text-gray-400 hover:text-gray-500">
+                                                <button class=" p-2 text-gray-400 hover:text-gray-500">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </button>
-                                                <button class="!rounded-button p-2 text-gray-400 hover:text-gray-500">
+                                                <button class=" p-2 text-gray-400 hover:text-gray-500">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -129,14 +129,14 @@
                                             </div>
                                             <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
                                                 <div
-                                                    class="w-[85%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-custom">
+                                                    class="w-[85%] shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <button
-                                        class="!rounded-button w-full border-2 border-custom text-custom px-4 py-2 text-sm font-medium hover:bg-custom/10">
+                                        class=" w-full border-2 border-custom text-custom px-4 py-2 text-sm font-medium hover:bg-emerald-600/10">
                                         <i class="fas fa-plus mr-2"></i>Ajouter un objectif
                                     </button>
                                 </div>

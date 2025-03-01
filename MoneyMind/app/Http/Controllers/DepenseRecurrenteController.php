@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use App\Models\DepenseRecurrente;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,6 +68,11 @@ class DepenseRecurrenteController extends Controller
             'user_id'         => Auth::id(),
             'date_reccurente' => $request->date_reccurente,
         ]);
+
+        // $user = Auth::user();
+        // Auth::user()->update([
+        //     'Budjet' => $user->Budjet - $request->prix,
+        // ]);
 
         return redirect()->route('utilisateur.reccurente');
     }

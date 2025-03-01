@@ -46,12 +46,14 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'photo' => $photoPath,
             'salaire' => $request->salaire,
+            'Budjet' => $request->salaire,
+            'date_credit'=> now(),
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('profile.edit', absolute: false));
     }
 }
