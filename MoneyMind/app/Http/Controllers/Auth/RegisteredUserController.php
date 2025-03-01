@@ -35,6 +35,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'photo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'salaire' => ['required', 'numeric', 'min:0'],
+            'date_credit' => ['required','date'],
 
         ]);
 
@@ -47,7 +48,7 @@ class RegisteredUserController extends Controller
             'photo' => $photoPath,
             'salaire' => $request->salaire,
             'Budjet' => $request->salaire,
-            'date_credit'=> now(),
+            'date_credit'=> $request->date_credit,
         ]);
 
         event(new Registered($user));

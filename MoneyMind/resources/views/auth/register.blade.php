@@ -36,6 +36,13 @@
                     required autocomplete="username" placeholder="5000" />
                 <x-input-error :messages="$errors->get('salaire')" class="mt-2" />
             </div>
+            <!-- Date Salaire mensuel -->
+            <div class="mt-2">
+                <x-input-label for="salaire" :value="__('Salaire mensuel')" />
+                <x-text-input type="date" name="date_credit" id="datesalaire" step="0.01" min="0" class="block mt-1 w-full" :value="old('salaire')"
+                    required autocomplete="username" placeholder="5000" />
+                <x-input-error :messages="$errors->get('date_credit')" class="mt-2" />
+            </div>
 
             <!-- Photo Upload -->
             <div>

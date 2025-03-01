@@ -13,15 +13,15 @@
 
                     <div class="bg-white rounded-lg shadow p-6 mb-8">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div class="bg-gray-50 rounded-lg p-6">
+                            <div class="bg-emerald-50 rounded-lg p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-2">Total de la liste</h3>
                                 <p class="text-3xl font-bold text-emerald-600">{{ $totalSouhaits }} €</p>
                             </div>
-                            <div class="bg-gray-50 rounded-lg p-6">
+                            <div class="bg-emerald-50 rounded-lg p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-2">Montant économisé</h3>
                                 <p class="text-3xl font-bold text-green-600">875 €</p>
                             </div>
-                            <div class="bg-gray-50 rounded-lg p-6">
+                            <div class="bg-emerald-50 rounded-lg p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-2">Progression globale</h3>
                                 <div class="relative pt-1">
                                     <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
@@ -58,7 +58,14 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Montant
                                         (€)</label>
                                     <select name="priorite"
-                                        class="w-full border-gray-300 focus:border-emerald-600 focus:ring-emerald-600"
+                                        class="appearance-none relative block w-full pl-10 pr-3 py-3
+                                              border border-gray-300 dark:border-gray-600 rounded-xl
+                                              placeholder-gray-500 dark:placeholder-gray-400
+                                              text-gray-900 dark:text-white
+                                              bg-white dark:bg-gray-700
+                                              focus:outline-none focus:ring-2 focus:ring-emerald-500
+                                              focus:border-emerald-500 focus:z-10 sm:text-sm
+                                              transition-colors duration-200"
                                         placeholder="10.00">
                                         <option value="">-- Priorité --</option>
                                         <option value="élevée">Elevée</option>
@@ -145,6 +152,14 @@
                                                 <span class="font-medium text-gray-900">{{ $souhait->priorite }}</span>
                                                 <span class="text-sm text-gray-500">Économisé:</span>
                                                 <span class="font-medium text-gray-900">450 €</span>
+                                            </div>
+                                            <div class="mt-4 relative pt-1">
+                                                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                                                    <div style="width:45%"
+                                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
+                                                    </div>
+                                                </div>
+                                                <p class="text-right text-sm font-medium text-gray-600">35%</p>
                                             </div>
                                         </div>
                                         <div class="ml-4 flex items-center space-x-3">

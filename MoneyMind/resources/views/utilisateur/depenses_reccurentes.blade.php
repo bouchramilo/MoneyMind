@@ -26,8 +26,8 @@
                                 <p class="text-3xl font-bold text-custom">{{ Auth::user()->salaire }}</p>
                             </div>
                             <div class="bg-white rounded-lg shadow p-6">
-                                <h3 class="text-lg font-medium text-gray-900 mb-4">Budjet</h3>
-                                <p class="text-3xl font-bold text-custom">{{ Auth::user()->Budjet }}</p>
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">Budjet ({{ round(Auth::user()->Budjet * 100 / Auth::user()->salaire ,2)}}%)</h3>
+                                <p class="text-3xl font-bold text-custom">{{ Auth::user()->Budjet }} </p>
                             </div>
                             <div class="bg-white rounded-lg shadow p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-4">Prochain Paiement</h3>

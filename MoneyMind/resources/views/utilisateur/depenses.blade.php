@@ -81,7 +81,7 @@
                                 <div class="flex items-center justify-end mb-6">
 
                                     <div class="flex space-x-4">
-                                       
+
                                         <select class="appearance-none relative block w-full pl-10 pr-3 py-2
                                               border border-gray-300 dark:border-gray-600 rounded-xl
                                               placeholder-gray-500 dark:placeholder-gray-400
@@ -175,7 +175,7 @@
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <span class="text-gray-600">
-                                            Budjet
+                                            Budjet ({{ round(Auth::user()->Budjet * 100 / Auth::user()->salaire ,2)}}%)
                                         </span>
                                         <span class="text-2xl font-semibold text-gray-900">
                                             {{ Auth::user()->Budjet }} €
@@ -197,10 +197,11 @@
                                             @foreach ($depensesParCategorie as $depenseParCategorie)
                                                 <div class="flex justify-between items-center">
                                                     <span
-                                                        class="text-sm text-gray-600">{{ $depenseParCategorie->categorie->title }}</span>
+                                                        class="text-sm text-gray-600">{{ $depenseParCategorie->categorie->title }} ({{ round($depenseParCategorie->total * 100 / $totalDepenses ,2)}}%)</span>
                                                     <span
-                                                        class="text-sm font-medium text-gray-900">{{ $depenseParCategorie->total }}
-                                                        €</span>
+                                                        class="text-sm font-medium text-gray-900">
+                                                        {{ $depenseParCategorie->total }} €
+                                                    </span>
                                                 </div>
                                             @endforeach
 
