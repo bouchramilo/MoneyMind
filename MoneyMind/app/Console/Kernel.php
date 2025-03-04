@@ -9,7 +9,8 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('salary:add')->dailyAt('00:00'); // ->everyMinute()
+        $schedule->command('salary:add')->dailyAt('12:00'); // ->everyMinute()
+        $schedule->command('app:depenses_recurrentes')->everyMinute();//dailyAt('12:00'); // ->everyMinute()
     }
 
     protected function commands()
@@ -17,3 +18,10 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__.'/Commands');
     }
 }
+
+
+
+// php artisan salary:add
+// php artisan app:depenses_recurrentes
+
+// pour executer les commendes

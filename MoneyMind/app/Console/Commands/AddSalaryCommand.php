@@ -12,15 +12,13 @@ class AddSalaryCommand extends Command
 
     public function handle()
     {
-        $today = now()->format('Y-m-d'); // Récupère la date actuelle au format YYYY-MM-DD
+        $today = now()->format('Y-m-d');
 
-        // Sélectionner les utilisateurs dont la date de salaire correspond à aujourd'hui
         $users = User::whereDate('date_credit', $today)->get();
 
         foreach ($users as $user) {
-            $user->Budjet += $user->salaire; // Ajouter le salaire au budget
+            $user->Budjet += $user->salaire;
 
-            // Mettre à jour la prochaine date de paiement (mois suivant)
             $user->date_credit = now()->addMonth()->format('Y-m-d');
             $user->save();
 
