@@ -159,21 +159,9 @@
                                             <div class="flex items-start">
                                                 <i class="fas fa-lightbulb text-blue-500 mt-1"></i>
                                                 <div class="ml-3">
-                                                    <p class="text-sm text-gray-900">Vous pourriez économiser 50€/mois
-                                                        en optimisant vos abonnements streaming</p> <button
-                                                        class="mt-2 text-sm font-medium text-custom hover:text-custom-600 !rounded-button">Voir
-                                                        les détails</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-4 bg-green-50 rounded-lg">
-                                            <div class="flex items-start">
-                                                <i class="fas fa-chart-line text-green-500 mt-1"></i>
-                                                <div class="ml-3">
-                                                    <p class="text-sm text-gray-900">Votre épargne pourrait rapporter
-                                                        plus avec un compte rémunéré</p> <button
-                                                        class="mt-2 text-sm font-medium text-custom hover:text-custom-600 !rounded-button">En
-                                                        savoir plus</button>
+                                                    <p class="text-sm text-gray-900">
+                                                        {{ $suggestions }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

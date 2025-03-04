@@ -8,6 +8,7 @@ use App\Http\Controllers\DepenseRecurrenteController;
 use App\Http\Controllers\ObjectifController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SouhaitsController;
+use App\Http\Controllers\UserDashboardController;
 use App\Http\Middleware\CheckIfAdmin;
 use App\Http\Middleware\CheckIfUtilisateur;
 use Illuminate\Support\Facades\Route;
@@ -24,13 +25,15 @@ Route::middleware('auth')->group(function () {
 
 // utilisateur routes **************************************************************************************************************
 // Route pour les utilisateurs
-Route::get('/utilisateur/dashboard', function () {
-    return view('utilisateur/dashboard');
-})->middleware(['auth', 'verified', CheckIfUtilisateur::class])->name('utilisateur.dashboard');
+// Route::get('/utilisateur/dashboard', function () {
+//     return view('utilisateur/dashboard');
+// })->middleware(['auth', 'verified', CheckIfUtilisateur::class])->name('utilisateur.dashboard');
 
 Route::middleware(['auth', 'verified', CheckIfUtilisateur::class])->group(function () {
 
-    // Route::get('/utilisateur/dashboard', [AdminController::class, 'index'])->name('admin.utilisateurs');
+    Route::get('/utilisateur/dashboard', [UserDashboardController::class, 'index'])->name('utilisateur.dashboard');
+
+    
 
     Route::get('/utilisateur/depenses', [DepenseController::class, 'index'])->name('utilisateur.depenses');
     Route::post('/utilisateur/depenses/store', [DepenseController::class, 'store'])->name('utilisateur.depenses.store');
