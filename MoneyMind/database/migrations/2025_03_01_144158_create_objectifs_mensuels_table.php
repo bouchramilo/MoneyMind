@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,11 +13,15 @@ return new class extends Migration
         Schema::create('objectifs_mensuels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('nom');
             $table->decimal('montant', 10, 2);
-            $table->date('date_obj');
+            $table->date('date_obj_debut');
+            $table->date('date_obj_fin')->nullable();
             $table->timestamps();
+
+            $table->unique(['user_id', 'date_obj_debut', 'date_obj_fin']);
         });
+
+
     }
 
     /**
@@ -26,6 +29,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+
+
         Schema::dropIfExists('objectifs_mensuels');
     }
 };

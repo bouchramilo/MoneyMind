@@ -1,8 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\ObjectifMensuel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ObjectifController extends Controller
 {
@@ -11,7 +12,15 @@ class ObjectifController extends Controller
      */
     public function index()
     {
-        return view("utilisateur/objectifs");
+        $objectifs   = ObjectifMensuel::where("user_id", "=", Auth::id())->orderBy("date_obj_debut", "desc")->with("progressions")->get();
+        $obj_current = ObjectifMensuel::where("user_id", "=", Auth::id())->wherenull("date_obj_fin")->first();
+
+        if ($obj_current) {
+            $progressions = $obj_current->progressions()->orderBy("date_mise_a_jour", "asc")->get();
+        } else {
+            $progressions = collect() ;
+        }
+        return view("utilisateur/objectifs", ["objectifs" => $objectifs, "objectif_current" => $obj_current, "progressions" => $progressions]);
     }
 
     /**
@@ -27,7 +36,32 @@ class ObjectifController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'montant' => ['required', 'numeric'],
+        ]);
+
+        $userId       = Auth::id();
+        $moisCourrant = now()->month;
+        $anneeCourant = now()->year;
+
+        $existeObjectif = ObjectifMensuel::where('user_id', $userId)
+            ->wherenull('date_obj_fin')
+            // ->whereYear('date_obj_debut', $anneeCourant)
+            ->first();
+
+        if ($existeObjectif) {
+            $existeObjectif->update([
+                'montant' => $request->montant,
+            ]);
+        } else {
+            ObjectifMensuel::create([
+                'montant'        => $request->montant,
+                'date_obj_debut' => now(),
+                'user_id'        => $userId,
+            ]);
+        }
+
+        return redirect()->route('utilisateur.objectifs');
     }
 
     /**

@@ -10,16 +10,21 @@ class ObjectifMensuel extends Model
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'objectifs_mensuels';
+
     protected $fillable = [
-        'nom',
         'montant',
-        'date_obj',
+        'date_obj_debut',
         'user_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function progressions()
+    {
+        return $this->hasMany(ProgressionObjectif::class, 'objectif_id');
     }
 }
 
