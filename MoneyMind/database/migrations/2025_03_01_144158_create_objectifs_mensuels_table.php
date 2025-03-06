@@ -14,6 +14,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('montant', 10, 2);
+            $table->decimal('montant_actuel', 10, 2);
             $table->date('date_obj_debut');
             $table->date('date_obj_fin')->nullable();
             $table->timestamps();

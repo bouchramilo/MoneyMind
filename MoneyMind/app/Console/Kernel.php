@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('salary:add')->dailyAt('12:00'); // ->everyMinute()
         $schedule->command('app:depenses_recurrentes')->everyMinute();//dailyAt('12:00'); // ->everyMinute()
+        // $schedule->command('wish:buy')->everyMinute();//dailyAt('12:00'); // ->everyMinute()
     }
 
     protected function commands()

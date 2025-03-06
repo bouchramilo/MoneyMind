@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nom');
-            $table->float('prix');
+            $table->decimal('prix',10, 2);
+            $table->decimal('prix_actuel', 10, 2)->default(0);
             $table->enum('priorite', ['faible', 'moyenne', 'élevée']);
             $table->timestamps();
         });

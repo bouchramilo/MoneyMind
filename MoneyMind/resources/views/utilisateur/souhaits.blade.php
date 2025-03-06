@@ -19,19 +19,13 @@
                             </div>
                             <div class="bg-emerald-50 rounded-lg p-6">
                                 <h3 class="text-lg font-medium text-gray-900 mb-2">Montant économisé</h3>
-                                <p class="text-3xl font-bold text-green-600">875 €</p>
+                                <p class="text-3xl font-bold text-green-600">{{ $montant_current }} €</p>
                             </div>
                             <div class="bg-emerald-50 rounded-lg p-6">
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Progression globale</h3>
-                                <div class="relative pt-1">
-                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                                        <div style="width:35%"
-                                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
-                                        </div>
-                                    </div>
-                                    <p class="text-right text-sm font-medium text-gray-600">35%</p>
-                                </div>
+                                <h3 class="text-lg font-medium text-gray-900 mb-2">Nombre d'article</h3>
+                                <p class="text-3xl font-bold text-green-600">{{ $listeSouhaits->count() }}</p>
                             </div>
+
                         </div>
                     </div>
 
@@ -95,51 +89,6 @@
 
                         <div class="divide-y divide-gray-200">
 
-                            {{-- @foreach ($listeSouhaits as $souhait)
-                                <div class="p-6">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex-1">
-                                            <h3 class="text-lg font-medium text-gray-900">{{ $souhait->nom }}</h3>
-                                            <div class="mt-1 flex items-center space-x-2">
-                                                <span class="text-sm text-gray-500">Prix cible:</span>
-                                                <span class="font-medium text-gray-900">{{ $souhait->prix }} €</span>
-                                                <span class="text-sm text-gray-500">Priorité:</span>
-                                                <span class="font-medium text-gray-900">{{ $souhait->priorite }}</span>
-                                                <span class="text-sm text-gray-500">Économisé:</span>
-                                                <span class="font-medium text-gray-900">450 €</span>
-                                            </div>
-                                            <div class="mt-4 relative pt-1">
-                                                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                                                    <div style="width:35%"
-                                                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
-                                                    </div>
-                                                </div>
-                                                <p class="text-right text-sm font-medium text-gray-600">35%</p>
-                                            </div>
-                                        </div>
-                                        <div class="ml-4 flex items-center space-x-3">
-                                            <!-- Bouton Modifier avec data-id dynamique -->
-                                            <button class="edit-btn p-2 text-gray-400 hover:text-emerald-600"
-                                                data-id="{{ $souhait->id }}">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-
-                                            <!-- Formulaire de suppression -->
-                                            <form action="{{ route('utilisateur.souhaits.destroy', $souhait->id) }}"
-                                                method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class=" p-2 text-gray-400 hover:text-red-600">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach --}}
-
-
-
                             @foreach ($listeSouhaits as $souhait)
                                 <div class="p-6">
                                     <div class="flex items-center justify-between">
@@ -151,19 +100,19 @@
                                                 <span class="text-sm text-gray-500">Priorité:</span>
                                                 <span class="font-medium text-gray-900">{{ $souhait->priorite }}</span>
                                                 <span class="text-sm text-gray-500">Économisé:</span>
-                                                <span class="font-medium text-gray-900">450 €</span>
+                                                <span class="font-medium text-gray-900">{{ (($souhait->prix - $montant_current) > 0) ? $montant_current : $souhait->prix }} €</span>
                                             </div>
                                             <div class="mt-4 relative pt-1">
                                                 <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                                                    <div style="width:45%"
+                                                    <div style="width:{{ ($montant_current / $souhait->prix) * 100 }}%"
                                                         class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-600">
                                                     </div>
                                                 </div>
-                                                <p class="text-right text-sm font-medium text-gray-600">35%</p>
+                                                <p class="text-right text-sm font-medium text-gray-600">
+                                                    {{ number_format(($montant_current / $souhait->prix) * 100, 2) }}%</p>
                                             </div>
                                         </div>
                                         <div class="ml-4 flex items-center space-x-3">
-                                            <!-- Bouton Modifier avec les data-* -->
                                             <button class="edit-btn p-2 text-gray-400 hover:text-emerald-600"
                                                 data-id="{{ $souhait->id }}" data-nom="{{ $souhait->nom }}"
                                                 data-prix="{{ $souhait->prix }}"
@@ -205,8 +154,7 @@
             <div
                 class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div class="absolute right-0 top-0 pr-4 pt-4">
-                    <button type="button" class="text-gray-400 hover:text-gray-500"> <i
-                            class="fas fa-times"></i>
+                    <button type="button" class="text-gray-400 hover:text-gray-500"> <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="sm:flex sm:items-start">

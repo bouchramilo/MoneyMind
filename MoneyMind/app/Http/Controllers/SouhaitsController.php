@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ListeSouhaits;
+use App\Models\ObjectifMensuel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +16,11 @@ class SouhaitsController extends Controller
         $listeSouhaits = ListeSouhaits::where("user_id", "=", Auth::user()->id)->get();
 
         $totalSouhaits = Auth::user()->list_souhaits()->sum('prix');
-        // dd($listeSouhaits);
 
-        return view("utilisateur/souhaits", compact(["listeSouhaits", "totalSouhaits"]));
+        $obj_current = ObjectifMensuel::where("user_id", "=", Auth::id())->wherenull("date_obj_fin")->first();
+        $montant_current = $obj_current->montant_actuel;
+
+        return view("utilisateur/souhaits", compact(["listeSouhaits", "totalSouhaits", "montant_current"]));
     }
 
     /**
@@ -80,7 +83,7 @@ class SouhaitsController extends Controller
         ]);
 
         $souhait = ListeSouhaits::findOrFail($request->souhaits_id);
-        
+
         $souhait->update([
             'nom'      => $request->nom,
             'prix'     => $request->prix,

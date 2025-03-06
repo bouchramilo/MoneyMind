@@ -49,9 +49,6 @@
             </div>
         </div>
 
-
-
-
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
@@ -109,7 +106,6 @@
 </section>
 
 <script>
-    // Preview uploaded image
     document.getElementById('photo').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {

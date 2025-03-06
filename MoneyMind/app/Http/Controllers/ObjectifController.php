@@ -58,6 +58,7 @@ class ObjectifController extends Controller
                 'montant'        => $request->montant,
                 'date_obj_debut' => now(),
                 'user_id'        => $userId,
+                'montant_actuel' => 0,
             ]);
         }
 

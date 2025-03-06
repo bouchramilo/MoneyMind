@@ -53,25 +53,6 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
-    /**
-     * Update the user's profile information.
-     */
-    public function updateSalary(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->validate([
-            'salaire'     => ['required', 'numeric', 'min:0'],
-            'date_credit' => ['required', 'date'],
-        ]);
-
-        $user = $request->user();
-
-        $user->salaire     = $request->input('salaire');
-        $user->date_credit = $request->input('date_credit');
-
-        $user->save();
-
-        return redirect()->route('profile.edit');
-    }
 
     /**
      * Delete the user's account.

@@ -16,6 +16,7 @@ class ObjectifMensuel extends Model
         'montant',
         'date_obj_debut',
         'user_id',
+        'montant_actuel',
     ];
 
     public function user()

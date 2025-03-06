@@ -42,6 +42,9 @@ class AddSalaryCommand extends Command
                         'date_mise_a_jour'       => now(),
                     ]);
 
+                    $objectifEnCours->montant_actuel = $restepourCompelterObj + $montantDerniereProgression;
+                    $objectifEnCours->save();
+
                     $user->Budjet -= $restepourCompelterObj;
 
                     $objectifEnCours->date_obj_fin = $today;
@@ -56,6 +59,9 @@ class AddSalaryCommand extends Command
                         'pourcentage_atteint'    => (($user->Budjet + $montantDerniereProgression) / $objectifEnCours->montant) * 100,
                         'date_mise_a_jour'       => now(),
                     ]);
+
+                    $objectifEnCours->montant_actuel = $user->Budjet + $montantDerniereProgression;
+                    $objectifEnCours->save();
 
                     $user->Budjet = 0;
 
