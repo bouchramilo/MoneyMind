@@ -87,9 +87,24 @@ class DepenseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        // dd($request);
+        $request->validate([
+            'nom'      => ['required', 'string', 'max:255'],
+            'prix'     => ['required', 'numeric'],
+            'catgorie_id' => ['nullable', 'integer', 'exists:categories,id'],
+        ]);
+
+        $souhait = Depense::findOrFail($request->depense_id);
+
+        $souhait->update([
+            'nom'      => $request->nom,
+            'prix'     => $request->prix,
+            'categorie_id' => $request->categorie_id,
+        ]);
+
+        return redirect()->route('utilisateur.depenses');
     }
 
     /**

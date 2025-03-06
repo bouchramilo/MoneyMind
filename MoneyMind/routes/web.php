@@ -38,12 +38,13 @@ Route::middleware(['auth', 'verified', CheckIfUtilisateur::class])->group(functi
     Route::get('/utilisateur/depenses', [DepenseController::class, 'index'])->name('utilisateur.depenses');
     Route::post('/utilisateur/depenses/store', [DepenseController::class, 'store'])->name('utilisateur.depenses.store');
     Route::delete("/utilisateur/depenses/destroy/{depense}", [DepenseController::class, 'destroy'])->name('utilisateur.depenses.destroy');
+    Route::put("/utilisateur/depenses/update", [DepenseController::class, 'update'])->name('utilisateur.depenses.update');
 
 
     Route::get('/utilisateur/depenses_reccurentes', [DepenseRecurrenteController::class, 'index'])->name('utilisateur.reccurente');
     Route::post('/utilisateur/depenses_reccurentes/store', [DepenseRecurrenteController::class, 'store'])->name('utilisateur.depenses_reccurentes.store');
     Route::delete("/utilisateur/depenses_reccurentes/destroy/{depense}", [DepenseRecurrenteController::class, 'destroy'])->name('utilisateur.depenses_reccurentes.destroy');
-    // Route::put("/utilisateur/depenses_reccurentes/update/{depense}", [DepenseRecurrenteController::class, 'update'])->name('utilisateur.depenses_reccurentes.update');
+    Route::put("/utilisateur/depenses_reccurentes/update", [DepenseRecurrenteController::class, 'update'])->name('utilisateur.depenses_reccurentes.update');
 
 
     Route::get('/utilisateur/souhaits', [SouhaitsController::class, 'index'])->name('utilisateur.souhaits');

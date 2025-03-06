@@ -18,8 +18,7 @@ class DepenseRecurrenteController extends Controller
 
         $categories = Categorie::all();
 
-        $depenses_recc = DepenseRecurrente::where("user_id", "=", Auth::user()->id) ->orderBy('date_reccurente', 'asc')->with("categorie")->get();
-
+        $depenses_recc = DepenseRecurrente::where("user_id", "=", Auth::user()->id)->orderBy('date_reccurente', 'asc')->with("categorie")->get();
 
         $totalDepenses = Auth::user()->depenses_reccurentes()->sum('prix');
 
@@ -96,9 +95,26 @@ class DepenseRecurrenteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        // dd($request);
+        $request->validate([
+            'nom'      => ['required', 'string', 'max:255'],
+            'prix'     => ['required', 'numeric'],
+            'catgorie_id' => ['nullable', 'integer', 'exists:categories,id'],
+            'date_reccurente' => ['required', 'date', ''],
+        ]);
+
+        $souhait = DepenseRecurrente::findOrFail($request->depense_id);
+
+        $souhait->update([
+            'nom'      => $request->nom,
+            'prix'     => $request->prix,
+            'categorie_id' => $request->categorie_id,
+            'date_reccurente' => $request->date_reccurente,
+        ]);
+
+        return redirect()->route('utilisateur.reccurente');
     }
 
     /**
