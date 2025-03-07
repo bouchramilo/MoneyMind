@@ -1,10 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Aleart;
+use App\Models\AleartConfig;
 use App\Models\Categorie;
 use App\Models\Depense;
+use App\Models\User;
+use App\Notifications\aleartNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class DepenseController extends Controller
 {
@@ -61,9 +66,40 @@ class DepenseController extends Controller
         ]);
 
         $user = Auth::user();
-        Auth::user()->update([
+        $user->update( [
             'Budjet' => $user->Budjet - $request->prix,
         ]);
+
+        // seuil global
+        $seuilglobal = AleartConfig::where('user_id', $user->id)->where('seuilType','=', 'seuil_global')->first();
+        $seuilglobal->pourcentage_actuel = $seuilglobal->pourcentage_actuel + ($request->prix / $user->salaire) *100;
+        $seuilglobal->save();
+        if($seuilglobal->pourcentage_actuel >= $seuilglobal->pourcentage){
+            $message = "Vous avez dépassé {$seuilglobal->pourcentage} de votre seuil global. (Votre pourcentage maintenant {$seuilglobal->pourcentage_actuel}) .";
+            Notification::send($user, new aleartNotification($message));
+
+            //
+            Aleart::create([
+                'mssg'          => $message,
+                'user_id'      => $user->id,
+            ]);
+        }
+
+        // seuil par categorie
+        $config = AleartConfig::where('user_id', $user->id)->where('categorie_id','=', $request->categorie_id)->first();
+        $config->pourcentage_actuel = $config->pourcentage_actuel + ($request->prix / $user->salaire) *100;
+        $config->save();
+        if($config->pourcentage_actuel >= $config->pourcentage){
+            $message = "Vous avez dépassé {$config->pourcentage} de votre seuil par catégorie '{$config->categorie->title}' déjà défini (Votre pourcentage maintenant {$config->pourcentage_actuel}) .";
+            Notification::send($user, new aleartNotification($message));
+
+            //
+            Aleart::create([
+                'mssg'          => $message,
+                'categorie_id' => $config->categorie->id,
+                'user_id'      => $user->id,
+            ]);
+        }
 
         return redirect()->route('utilisateur.depenses');
     }

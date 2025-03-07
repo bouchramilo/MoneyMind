@@ -18,4 +18,13 @@ class Categorie extends Model
     {
         return $this->hasMany(Depense::class);
     }
+    public function alearts()
+    {
+        return $this->hasMany(AleartConfig::class);
+    }
+
+    public function notification()
+    {
+        return $this->hasMany(Aleart::class);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Models\AleartConfig;
 use App\Models\ObjectifMensuel;
 use App\Models\ProgressionObjectif;
 use App\Models\User;
@@ -82,6 +83,12 @@ class AddSalaryCommand extends Command
 
             $user->date_credit = now()->addMonth()->format('Y-m-d');
             $user->save();
+
+            $configInitialiser = AleartConfig::where('user_id', $user->id)->get();
+            foreach ($configInitialiser as $aleart) {
+                $aleart->pourcentage_actuel = 0.00 ;
+                $aleart->save();
+            }
         }
 
         return 0;

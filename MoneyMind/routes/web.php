@@ -59,6 +59,7 @@ Route::middleware(['auth', 'verified', CheckIfUtilisateur::class])->group(functi
 
 
     Route::get('utilisateur/configuration', [ConfigAlerteController::class, 'index'])->name('utilisateur.configuration');
+    Route::post('utilisateur/configuration', [ConfigAlerteController::class, 'store'])->name('utilisateur.configuration.categorie');
 
 
 

@@ -47,13 +47,18 @@
                                         @foreach ($prochainPaiements as $prochainPaiement)
                                             <div class="flex items-center justify-between p-4 bg-emerald-50 rounded-lg">
                                                 <div class="flex items-center">
-                                                    <i class="fa-solid fa-file-invoice-dollar text-gray-400 text-xl"></i>
+                                                    <i
+                                                        class="fa-solid fa-file-invoice-dollar text-gray-400 text-xl"></i>
                                                     <div class="ml-4">
-                                                        <p class="text-sm font-medium text-gray-900">{{ $prochainPaiement->nom }}</p>
-                                                        <p class="text-xs text-gray-500">{{ $prochainPaiement->date_reccurente }}</p>
+                                                        <p class="text-sm font-medium text-gray-900">
+                                                            {{ $prochainPaiement->nom }}</p>
+                                                        <p class="text-xs text-gray-500">
+                                                            {{ $prochainPaiement->date_reccurente }}</p>
                                                     </div>
                                                 </div>
-                                                <span class="text-sm font-medium text-orange-600">{{ $prochainPaiement->prix }} €</span>
+                                                <span
+                                                    class="text-sm font-medium text-orange-600">{{ $prochainPaiement->prix }}
+                                                    €</span>
                                             </div>
                                         @endforeach
                                     </div>
@@ -67,17 +72,19 @@
                                         <div>
                                             <div class="flex justify-between mb-2">
                                                 <span
-                                                    class="text-sm font-medium text-gray-700">{{ $obj_current->montant_actuel }}€
-                                                    / {{ $obj_current->montant }}€</span>
+                                                    class="text-sm font-medium text-gray-700">{{ $obj_current->montant_actuel ?? 0 }}€
+                                                    / {{ $obj_current->montant ?? 0 }}€</span>
                                             </div>
                                             <div class="relative pt-1">
                                                 <div class="overflow-hidden h-2 text-xs flex rounded bg-emerald-100">
-                                                    <div style="width: {{ ($obj_current->montant_actuel / $obj_current->montant) * 100 }}%"
+                                                    <div style="width: {{ isset($obj_current) ? (($obj_current->montant_actuel ?? 0) / ($obj_current->montant ?? 1)) * 100 : 0 }}%"
                                                         class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p class="text-xs text-gray-500 mt-1">Commancé à : {{ $obj_current->date_obj_debut }}</p>
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                Commencé à : {{ $obj_current->date_obj_debut ?? 'Non défini' }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +113,8 @@
                                             <div class="flex items-center justify-between">
                                                 <div class="flex items-center">
                                                     <div class="ml-3">
-                                                        <p class="text-sm font-medium text-gray-900">{{ $wish->nom }}
+                                                        <p class="text-sm font-medium text-gray-900">
+                                                            {{ $wish->nom }}
                                                         </p>
                                                         <p class="text-xs text-gray-500">{{ $wish->prix }} €</p>
                                                     </div>

@@ -18,7 +18,7 @@ class SouhaitsController extends Controller
         $totalSouhaits = Auth::user()->list_souhaits()->sum('prix');
 
         $obj_current = ObjectifMensuel::where("user_id", "=", Auth::id())->wherenull("date_obj_fin")->first();
-        $montant_current = $obj_current->montant_actuel;
+        $montant_current = $obj_current->montant_actuel ?? 0;
 
         return view("utilisateur/souhaits", compact(["listeSouhaits", "totalSouhaits", "montant_current"]));
     }
