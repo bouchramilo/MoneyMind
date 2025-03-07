@@ -115,17 +115,17 @@
                                                     <span
                                                         class="absolute inset-y-0 right-3 flex items-center text-gray-500">%</span>
                                                 </div>
-                                                <button
+                                                {{-- <button
                                                     class="bg-emerald-600 hover:bg-emerald-500 bottom-8 rounded-lg right-8 inline-flex items-center px-2 py-2 border border-transparent text-base font-medium rounded-button shadow-sm text-white bg-custom focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom ">
                                                     <span><i class="fas fa-save mx-2"></i></span>
-                                                </button>
+                                                </button> --}}
                                             </div>
                                         </div>
                                     </form>
                                 @endforeach
 
                             </div>
-                            
+
                         </div>
 
                         <div class="bg-white shadow rounded-lg p-6">
