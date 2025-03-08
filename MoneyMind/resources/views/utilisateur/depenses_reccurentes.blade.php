@@ -45,19 +45,7 @@
                                     <div class="flex justify-between items-center mb-6">
                                         <h2 class="text-lg font-medium text-gray-900">Liste des Dépenses
                                             ({{ $depenses_recc->count() }})</h2>
-                                        <div class="flex space-x-4">
-                                            <select class="border-gray-300 rounded-md text-sm">
-                                                <option value="">Toutes les catégories</option>
-                                                @foreach ($categories as $categorie)
-                                                    <option value="{{ $categorie->id }}">{{ $categorie->title }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <select class="border-gray-300 rounded-md text-sm">
-                                                <option>Trier par date</option>
-                                                <option>Trier par montant</option>
-                                            </select>
-                                        </div>
+                                        
                                     </div>
                                     <table class="min-w-full">
                                         <thead>
@@ -96,9 +84,10 @@
                                                         {{ \Carbon\Carbon::parse($depense->date_reccurente)->translatedFormat('d/m/Y - H:i') }}
 
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap flex text-sm text-gray-500">
+                                                    <td class="px-6 py-4 gap-2 whitespace-nowrap flex text-sm text-gray-500">
+
                                                         <button
-                                                            class="edit-btn p-2 text-gray-400 hover:text-emerald-600"
+                                                            class="edit-btn text-gray-400 hover:text-emerald-600"
                                                             data-id="{{ $depense->id }}"
                                                             data-nom="{{ $depense->nom }}"
                                                             data-prix="{{ $depense->prix }}"

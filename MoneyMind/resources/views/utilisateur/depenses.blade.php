@@ -78,29 +78,6 @@
                             </div>
 
                             <div class="bg-white rounded-lg shadow p-6">
-                                <div class="flex items-center justify-end mb-6">
-
-                                    <div class="flex space-x-4">
-
-                                        <select class="appearance-none relative block w-full pl-10 pr-3 py-2
-                                              border border-gray-300 dark:border-gray-600 rounded-xl
-                                              placeholder-gray-500 dark:placeholder-gray-400
-                                              text-gray-900 dark:text-white
-                                              bg-white dark:bg-gray-700
-                                              focus:outline-none focus:ring-2 focus:ring-emerald-500
-                                              focus:border-emerald-500 focus:z-10 sm:text-sm
-                                              transition-colors duration-200">
-                                            <option value="">Toutes les catégories</option>
-                                            @foreach ($categories as $categorie)
-                                                <option value="{{ $categorie->id }}">{{ $categorie->title }}</option>
-                                            @endforeach
-                                        </select>
-                                        <button
-                                            class="!rounded-button bg-gray-100 text-gray-700 px-4 py-2 text-sm font-medium hover:bg-gray-200">
-                                            <i class="fas fa-filter mr-2"></i>Filtrer
-                                        </button>
-                                    </div>
-                                </div>
                                 <h2 class="text-lg font-medium">Liste des dépenses ({{ $depenses->count() }})</h2>
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full">
@@ -138,24 +115,27 @@
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"> <span
                                                             class="px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full">{{ $depense->categorie->title }}</span>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm flex text-gray-500">
-                                                        <button
-                                                            class="edit-btn p-2 text-gray-400 hover:text-emerald-600"
-                                                            data-id="{{ $depense->id }}"
-                                                            data-nom="{{ $depense->nom }}"
-                                                            data-prix="{{ $depense->prix }}"
-                                                            data-categorieId="{{ $depense->categorie->id }}">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <form
-                                                            action="{{ route('utilisateur.depenses.destroy', $depense->id) }}"
-                                                            method="post">
-                                                            @method('DELETE')
-                                                            @csrf
-                                                            <button class="text-red-600 hover:text-red-800"><i
-                                                                    class="fas fa-trash"></i>
+                                                    <td
+                                                        class="px-6 py-4 whitespace-nowrap text-sm flex text-gray-500 ">
+                                                        <div class="flex gap-2">
+                                                            <button
+                                                                class="edit-btn text-gray-400 hover:text-emerald-600"
+                                                                data-id="{{ $depense->id }}"
+                                                                data-nom="{{ $depense->nom }}"
+                                                                data-prix="{{ $depense->prix }}"
+                                                                data-categorieId="{{ $depense->categorie->id }}">
+                                                                <i class="fas fa-edit"></i>
                                                             </button>
-                                                        </form>
+                                                            <form
+                                                                action="{{ route('utilisateur.depenses.destroy', $depense->id) }}"
+                                                                method="post">
+                                                                @method('DELETE')
+                                                                @csrf
+                                                                <button class="text-red-600 hover:text-red-800"><i
+                                                                        class="fas fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -180,7 +160,8 @@
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <span class="text-gray-600">
-                                            Budjet ({{ round(Auth::user()->Budjet * 100 / Auth::user()->salaire ,2)}}%)
+                                            Budjet
+                                            ({{ round((Auth::user()->Budjet * 100) / Auth::user()->salaire, 2) }}%)
                                         </span>
                                         <span class="text-2xl font-semibold text-gray-900">
                                             {{ Auth::user()->Budjet }} €
@@ -202,9 +183,9 @@
                                             @foreach ($depensesParCategorie as $depenseParCategorie)
                                                 <div class="flex justify-between items-center">
                                                     <span
-                                                        class="text-sm text-gray-600">{{ $depenseParCategorie->categorie->title }} ({{ round($depenseParCategorie->total * 100 / $totalDepenses ,2)}}%)</span>
-                                                    <span
-                                                        class="text-sm font-medium text-gray-900">
+                                                        class="text-sm text-gray-600">{{ $depenseParCategorie->categorie->title }}
+                                                        ({{ round(($depenseParCategorie->total * 100) / $totalDepenses, 2) }}%)</span>
+                                                    <span class="text-sm font-medium text-gray-900">
                                                         {{ $depenseParCategorie->total }} €
                                                     </span>
                                                 </div>
@@ -228,124 +209,124 @@
         </div>
     </div>
 
-       {{-- ********** --}}
+    {{-- ********** --}}
 
-       <div class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden" id="modal-backdrop"></div>
-       <div class="fixed inset-0 z-10 hidden" id="modal">
-           <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-               <div
-                   class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                   <div class="absolute right-0 top-0 pr-4 pt-4">
-                       <button type="button" class="text-gray-400 hover:text-gray-500"> <i class="fas fa-times"></i>
-                       </button>
-                   </div>
-                   <div class="sm:flex sm:items-start">
-                       <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                           <h3 class="text-lg font-medium leading-6 text-gray-900 mb-6">Modifier un dépense </h3>
-                           <form method="post" action="{{ route('utilisateur.depenses.update') }}">
-                               @csrf
-                               @method('PUT')
-                               <div class="space-y-4">
-                                   <input type="hidden" name='depense_id'>
-                                   <div>
-                                       <label class="block text-sm font-medium text-gray-700">Nom de dépense</label>
-                                       <x-text-input type="text" name="nom"
-                                           class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
-                                           placeholder='Entrez le nom de depense reccurente'/>
-                                   </div>
-                                   <div>
-                                       <label class="block text-sm font-medium text-gray-700">Prix cible</label>
-                                       <x-text-input type="number" name="prix"
-                                           class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
-                                           placeholder="0.00"/>
-                                   </div>
-                                   <div>
-                                       <label class="block text-sm font-medium text-gray-700">Catégorie</label>
-                                       <select id="categorie" name="categorie_id"
-                                           class="form-input mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
-                                           placeholder='categorie'>
-                                           <option value="">-- Catégorie --</option>
-                                           @foreach ($categories as $categorie)
-                                               <option value="{{ $categorie->id }}">{{ $categorie->title }}
-                                               </option>
-                                           @endforeach
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden" id="modal-backdrop"></div>
+    <div class="fixed inset-0 z-10 hidden" id="modal">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div
+                class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                <div class="absolute right-0 top-0 pr-4 pt-4">
+                    <button type="button" class="text-gray-400 hover:text-gray-500"> <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="sm:flex sm:items-start">
+                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 mb-6">Modifier un dépense </h3>
+                        <form method="post" action="{{ route('utilisateur.depenses.update') }}">
+                            @csrf
+                            @method('PUT')
+                            <div class="space-y-4">
+                                <input type="hidden" name='depense_id'>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Nom de dépense</label>
+                                    <x-text-input type="text" name="nom"
+                                        class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
+                                        placeholder='Entrez le nom de depense reccurente' />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Prix cible</label>
+                                    <x-text-input type="number" name="prix"
+                                        class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
+                                        placeholder="0.00" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Catégorie</label>
+                                    <select id="categorie" name="categorie_id"
+                                        class="form-input mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
+                                        placeholder='categorie'>
+                                        <option value="">-- Catégorie --</option>
+                                        @foreach ($categories as $categorie)
+                                            <option value="{{ $categorie->id }}">{{ $categorie->title }}
+                                            </option>
+                                        @endforeach
 
-                                       </select>
-                                   </div>
-                               </div>
-                               <div class="mt-6 flex justify-end space-x-3"> <button type="button"
-                                       class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
-                                       Annuler
-                                   </button>
-                                   <button type="submit"
-                                       class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent hover:bg-emerald-500">
-                                       Sauvegarder
-                                   </button>
-                               </div>
-                           </form>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end space-x-3"> <button type="button"
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
+                                    Annuler
+                                </button>
+                                <button type="submit"
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent hover:bg-emerald-500">
+                                    Sauvegarder
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-       {{-- ********** --}}
+    {{-- ********** --}}
 
-       <script>
-           document.addEventListener("DOMContentLoaded", function() {
-               const modal = document.getElementById("modal");
-               const backdrop = document.getElementById("modal-backdrop");
-               const closeButton = modal.querySelector(".fas.fa-times").parentElement;
-               const editButtons = document.querySelectorAll(".edit-btn");
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("modal");
+            const backdrop = document.getElementById("modal-backdrop");
+            const closeButton = modal.querySelector(".fas.fa-times").parentElement;
+            const editButtons = document.querySelectorAll(".edit-btn");
 
-               // Sélection des champs du formulaire
-               const idInput = modal.querySelector("input[name='depense_id']");
-               const nomInput = modal.querySelector("input[placeholder='Entrez le nom de depense reccurente']");
-               const prixInput = modal.querySelector("input[placeholder='0.00']");
+            // Sélection des champs du formulaire
+            const idInput = modal.querySelector("input[name='depense_id']");
+            const nomInput = modal.querySelector("input[placeholder='Entrez le nom de depense reccurente']");
+            const prixInput = modal.querySelector("input[placeholder='0.00']");
             //    const dateInput = modal.querySelector("input[placeholder='01/01/2001']");
-               const categorieSelect = modal.querySelector("#categorie"); // Sélection du champ <select>
+            const categorieSelect = modal.querySelector("#categorie"); // Sélection du champ <select>
 
-               function openModal(depenseRecc) {
-                   console.log("Modifier le depenseRecc avec l'ID :", depenseRecc.id);
-                   modal.classList.remove("hidden");
-                   backdrop.classList.remove("hidden");
+            function openModal(depenseRecc) {
+                console.log("Modifier le depenseRecc avec l'ID :", depenseRecc.id);
+                modal.classList.remove("hidden");
+                backdrop.classList.remove("hidden");
 
-                   // Remplir les champs du formulaire
-                   idInput.value = depenseRecc.id;
-                   nomInput.value = depenseRecc.nom;
-                   prixInput.value = depenseRecc.prix;
+                // Remplir les champs du formulaire
+                idInput.value = depenseRecc.id;
+                nomInput.value = depenseRecc.nom;
+                prixInput.value = depenseRecc.prix;
                 //    dateInput.value = depenseRecc.dateReccurente;
 
-                   // Sélectionner la bonne option pour la priorité
-                   categorieSelect.value = depenseRecc.categorieId;
-                   // categorieSelect.innerHTML = depenseRecc.categorie;
-               }
+                // Sélectionner la bonne option pour la priorité
+                categorieSelect.value = depenseRecc.categorieId;
+                // categorieSelect.innerHTML = depenseRecc.categorie;
+            }
 
-               function closeModal() {
-                   modal.classList.add("hidden");
-                   backdrop.classList.add("hidden");
-               }
+            function closeModal() {
+                modal.classList.add("hidden");
+                backdrop.classList.add("hidden");
+            }
 
-               // Écouteur d'événement sur chaque bouton Modifier
-               editButtons.forEach(button => {
-                   button.addEventListener("click", function() {
-                       const depenseRecc = {
-                           id: this.getAttribute("data-id"),
-                           nom: this.getAttribute("data-nom"),
-                           prix: this.getAttribute("data-prix"),
-                           categorieId: this.getAttribute("data-categorieId"),
+            // Écouteur d'événement sur chaque bouton Modifier
+            editButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const depenseRecc = {
+                        id: this.getAttribute("data-id"),
+                        nom: this.getAttribute("data-nom"),
+                        prix: this.getAttribute("data-prix"),
+                        categorieId: this.getAttribute("data-categorieId"),
                         //    dateReccurente: this.getAttribute("data-dateReccurente"),
-                       };
+                    };
 
-                       openModal(depenseRecc);
-                   });
-               });
+                    openModal(depenseRecc);
+                });
+            });
 
-               closeButton.addEventListener("click", closeModal);
-               backdrop.addEventListener("click", closeModal);
-           });
-       </script>
-       {{-- *************** --}}
+            closeButton.addEventListener("click", closeModal);
+            backdrop.addEventListener("click", closeModal);
+        });
+    </script>
+    {{-- *************** --}}
 
 
 

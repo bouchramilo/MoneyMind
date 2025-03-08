@@ -7,8 +7,6 @@ use App\Models\Categorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Carbon\Carbon;
-
 
 class ConfigAlerteController extends Controller
 {
@@ -18,10 +16,10 @@ class ConfigAlerteController extends Controller
     public function index()
     {
 
-        $aleartNotification = Aleart::where("user_id", Auth::user()->id)->orderBy("created_at","desc")->get();
-        $categories = Categorie::all();
-        $configs    = AleartConfig::where("user_id", "=", Auth::user()->id)->where("seuilType", "=", "seuil_categorie")->get();
-        $global     = AleartConfig::where("user_id", "=", Auth::user()->id)->where("seuilType", "=", "seuil_global")->get();
+        $aleartNotification = Aleart::where("user_id", Auth::user()->id)->orderBy("created_at", "desc")->get();
+        $categories         = Categorie::all();
+        $configs            = AleartConfig::where("user_id", "=", Auth::user()->id)->where("seuilType", "=", "seuil_categorie")->get();
+        $global             = AleartConfig::where("user_id", "=", Auth::user()->id)->where("seuilType", "=", "seuil_global")->get();
 // dd($global);
         return view("utilisateur/configuration", compact(["categories", "configs", "global", "aleartNotification"]));
     }
@@ -49,15 +47,7 @@ class ConfigAlerteController extends Controller
                     }),
                 ],
                 'pourcentage'  => 'required|numeric|min:1|max:100',
-            ]
-                // , [
-                //     'categorie_id.unique' => 'Vous avez déjà une configuration pour cette catégorie.',
-                //     'pourcentage.required' => 'Le pourcentage est obligatoire.',
-                //     'pourcentage.numeric' => 'Le pourcentage doit être un nombre.',
-                //     'pourcentage.min' => 'Le pourcentage doit être au moins 1%.',
-                //     'pourcentage.max' => 'Le pourcentage ne peut pas dépasser 100%.',
-                // ]
-            );
+            ]);
 
             AleartConfig::create([
                 'user_id'      => auth()->id(),
@@ -68,19 +58,27 @@ class ConfigAlerteController extends Controller
         } else {
             $request->validate([
                 'pourcentage' => 'required|numeric|min:1|max:100',
-                'seuilType'   => [
-                    'required',
-                    Rule::unique('configalearts')->where(function ($query) {
-                        return $query->where('user_id', auth()->id());
-                    }),
-                ],
+                // 'seuilType'   => [
+                //     'required',
+                //     Rule::unique('configalearts')->where(function ($query) {
+                //         return $query->where('user_id', auth()->id());
+                //     }),
+                // ],
             ]);
 
-            AleartConfig::create([
-                'user_id'     => auth()->id(),
-                'seuilType'   => $request->seuilType,
-                'pourcentage' => $request->pourcentage,
-            ]);
+            $existe = AleartConfig::where('user_id', '=', Auth::user()->id)->where('seuilType', '=', $request->seuilType)->first();
+
+            if ($existe) {
+                $existe->update([
+                    'pourcentage' => $request->pourcentage,
+                ]);
+            } else {
+                AleartConfig::create([
+                    'user_id'     => auth()->id(),
+                    'seuilType'   => $request->seuilType,
+                    'pourcentage' => $request->pourcentage,
+                ]);
+            }
         }
 
         return redirect()->back()->with('success', 'Configuration enregistrée avec succès.');
@@ -105,9 +103,18 @@ class ConfigAlerteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'pourcentage' => 'required|numeric|min:1|max:100',
+        ]);
+
+        $existeConfig = AleartConfig::where('user_id', '=', Auth::user()->id)->where('id', '=', $request->config_id)->first();
+
+        $existeConfig->update([
+            'pourcentage' => $request->pourcentage,
+        ]);
+        return redirect()->route('utilisateur.configuration');
     }
 
     /**
@@ -115,6 +122,9 @@ class ConfigAlerteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $notifi = Aleart::findOrFail($id);
+        $notifi->delete();
+
+        return redirect()->route('utilisateur.configuration');
     }
 }

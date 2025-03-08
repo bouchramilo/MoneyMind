@@ -81,24 +81,23 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <div class="flex space-x-3">
-                                                        <form method="post" action=""
-                                                            class="mb-6 flex gap-2">
-                                                            @csrf
-                                                            <button
-                                                                class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300">
-                                                                <svg class="w-5 h-5" fill="none"
-                                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2"
-                                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                                </svg>
-                                                            </button>
-                                                        </form>
-                                                        <form method="post" action="{{ route('categories.destroy', $categorie->id) }}"
-                                                            class="mb-6 flex gap-2">
+
+                                                        <button
+                                                            class="edit-btn text-emerald-600 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300"
+                                                            data-id="{{ $categorie->id }}"
+                                                            data-nom="{{ $categorie->title }}">
+                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                                viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                            </svg>
+                                                        </button>
+                                                        <form method="post"
+                                                            action="{{ route('categories.destroy', $categorie->id) }}"
+                                                            class="flex gap-2">
                                                             @csrf
                                                             @method('DELETE')
-                                                            {{-- <input type="hidden" value="{{ $categorie->id }}" > --}}
                                                             <button
                                                                 class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300">
                                                                 <svg class="w-5 h-5" fill="none"
@@ -118,86 +117,116 @@
                                 </table>
                             </div>
                         </div>
-
-
-
-                        <!-- Add/Edit Modal avec x-cloak -->
-                        {{-- <div x-show="isModalOpen" x-cloak
-                            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
-                            x-transition>
-                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full"
-                                @click.away="closeModal()">
-                                <div class="p-6">
-                                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4"
-                                        x-text="editingCategory ? 'Modifier la catégorie' : 'Ajouter une catégorie'">
-                                    </h3>
-
-                                    <form @submit.prevent="saveCategory">
-                                        <!-- Icon Input -->
-                                        <div class="mb-4">
-                                            <label
-                                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                                Icône
-                                            </label>
-                                            <div class="grid grid-cols-8 gap-2">
-                                                <template x-for="icon in availableIcons" :key="icon">
-                                                    <button type="button" @click="selectIcon(icon)"
-                                                        :class="{ 'ring-2 ring-emerald-500': selectedIcon === icon }"
-                                                        class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700
-                                                   flex items-center justify-center hover:bg-gray-200
-                                                   dark:hover:bg-gray-600 transition-colors">
-                                                        <span x-text="icon" class="text-xl"></span>
-                                                    </button>
-                                                </template>
-                                            </div>
-                                        </div>
-
-                                        <!-- Name Input -->
-                                        <div class="mb-4">
-                                            <label for="categoryName"
-                                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                                Nom
-                                            </label>
-                                            <input type="text" id="categoryName" x-model="formData.name" required
-                                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                                          focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700
-                                          dark:text-white transition-colors">
-                                        </div>
-
-                                        <!-- Description Input -->
-                                        <div class="mb-6">
-                                            <label for="categoryDescription"
-                                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                                Description
-                                            </label>
-                                            <textarea id="categoryDescription" x-model="formData.description" rows="3" required
-                                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg
-                                             focus:ring-emerald-500 focus:border-emerald-500 dark:bg-gray-700
-                                             dark:text-white transition-colors"></textarea>
-                                        </div>
-
-                                        <!-- Action Buttons -->
-                                        <div class="flex justify-end space-x-3">
-                                            <button type="button" @click="closeModal"
-                                                class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100
-                                           dark:hover:bg-gray-700 rounded-lg transition-colors">
-                                                Annuler
-                                            </button>
-                                            <button type="submit"
-                                                class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700
-                                           transition-colors">
-                                                <span x-text="editingCategory ? 'Modifier' : 'Ajouter'"></span>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
+    {{-- ********** --}}
+
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden" id="modal-backdrop"></div>
+    <div class="fixed inset-0 z-10 hidden" id="modal">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div
+                class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                <div class="absolute right-0 top-0 pr-4 pt-4">
+                    <button type="button" class="text-gray-400 hover:text-gray-500"> <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="sm:flex sm:items-start">
+                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 mb-6">Modifier un catégorie</h3>
+                        <form method="post" action="{{ route('categories.update') }}">
+                            @csrf
+                            @method('PUT')
+                            <div class="space-y-4">
+                                <input type="hidden" name='categorie_id'>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Nom de Catégorie</label>
+                                    <x-text-input type="text" name="title"
+                                        class="mt-1 block w-full border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 sm:text-sm"
+                                        placeholder='Entrez le nom de catégorie' />
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end space-x-3">
+                                <button type="button"
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
+                                    Annuler
+                                </button>
+                                <button type="submit"
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent hover:bg-emerald-500">
+                                    Sauvegarder
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ********** --}}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("modal");
+            const backdrop = document.getElementById("modal-backdrop");
+            const closeButton = modal.querySelector(".fas.fa-times").parentElement;
+            const editButtons = document.querySelectorAll(".edit-btn");
+
+            // Sélection des champs du formulaire
+            const idInput = modal.querySelector("input[name='categorie_id']");
+            const nomInput = modal.querySelector("input[placeholder='Entrez le nom de catégorie']");
+            // const prixInput = modal.querySelector("input[placeholder='0.00']");
+            // const dateInput = modal.querySelector("input[placeholder='01/01/2001']");
+            // const prioriteSelect = modal.querySelector("#categorie"); // Sélection du champ <select>
+
+            function openModal(depenseRecc) {
+                console.log("Modifier le depenseRecc avec l'ID :", depenseRecc.id);
+                modal.classList.remove("hidden");
+                backdrop.classList.remove("hidden");
+
+                // Remplir les champs du formulaire
+                idInput.value = depenseRecc.id;
+                nomInput.value = depenseRecc.nom;
+                // prixInput.value = depenseRecc.prix;
+                // dateInput.value = depenseRecc.dateReccurente;
+
+                // Sélectionner la bonne option pour la priorité
+                // prioriteSelect.value = depenseRecc.categorieId;
+                // prioriteSelect.innerHTML = depenseRecc.categorie;
+            }
+
+            function closeModal() {
+                modal.classList.add("hidden");
+                backdrop.classList.add("hidden");
+            }
+
+            // Écouteur d'événement sur chaque bouton Modifier
+            editButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const depenseRecc = {
+                        id: this.getAttribute("data-id"),
+                        nom: this.getAttribute("data-nom"),
+                        // prix: this.getAttribute("data-prix"),
+                        // categorieId: this.getAttribute("data-categorieId"),
+                        // dateReccurente: this.getAttribute("data-dateReccurente"),
+                    };
+
+                    openModal(depenseRecc);
+                });
+            });
+
+            closeButton.addEventListener("click", closeModal);
+            backdrop.addEventListener("click", closeModal);
+        });
+    </script>
+    {{-- *************** --}}
+
 
     <!-- Dark Mode Store -->
     <script>
@@ -225,104 +254,6 @@
             // Initialize dark mode
             Alpine.store('darkMode').updateDocument();
         });
-    </script>
-
-    <script>
-        function categoriesManager() {
-            return {
-                categories: [{
-                        id: 1,
-                        icon: '🏠',
-                        name: 'Logement',
-                        description: 'Dépenses liées au logement'
-                    },
-                    {
-                        id: 2,
-                        icon: '🍔',
-                        name: 'Alimentation',
-                        description: 'Courses et restaurants'
-                    },
-                    {
-                        id: 3,
-                        icon: '🚗',
-                        name: 'Transport',
-                        description: 'Voiture, transport en commun'
-                    }
-                ],
-                isModalOpen: false,
-                editingCategory: null,
-                formData: {
-                    name: '',
-                    description: '',
-                    icon: ''
-                },
-                selectedIcon: '',
-                availableIcons: ['🏠', '🍔', '🚗', '💰', '🎮', '👕', '💊', '✈️', '📱', '🎭', '📚', '🏋️'],
-
-                openAddModal() {
-                    this.editingCategory = null;
-                    this.formData = {
-                        name: '',
-                        description: '',
-                        icon: ''
-                    };
-                    this.selectedIcon = '';
-                    this.isModalOpen = true;
-                },
-
-                openEditModal(category) {
-                    this.editingCategory = category;
-                    this.formData = {
-                        ...category
-                    };
-                    this.selectedIcon = category.icon;
-                    this.isModalOpen = true;
-                },
-
-                closeModal() {
-                    this.isModalOpen = false;
-                    this.editingCategory = null;
-                    this.formData = {
-                        name: '',
-                        description: '',
-                        icon: ''
-                    };
-                    this.selectedIcon = '';
-                },
-
-                selectIcon(icon) {
-                    this.selectedIcon = icon;
-                    this.formData.icon = icon;
-                },
-
-                saveCategory() {
-                    if (this.editingCategory) {
-                        // Update existing category
-                        const index = this.categories.findIndex(c => c.id === this.editingCategory.id);
-                        if (index !== -1) {
-                            this.categories[index] = {
-                                ...this.editingCategory,
-                                ...this.formData
-                            };
-                        }
-                    } else {
-                        // Add new category
-                        const newId = Math.max(...this.categories.map(c => c.id)) + 1;
-                        this.categories.push({
-                            id: newId,
-                            ...this.formData
-                        });
-                    }
-                    this.closeModal();
-                },
-
-                deleteCategory(id) {
-                    if (confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')) {
-                        this.categories = this.categories.filter(c => c.id !== id);
-                    }
-                }
-            }
-        }
     </script>
 
 </x-app-layout>

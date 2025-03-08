@@ -94,7 +94,7 @@
                             </div> --}}
                         </div>
                         <div class="bg-white shadow rounded-lg p-6">
-                            <h2 class="text-2xl font-semibold mb-6">Vos configuration par Catégorie</h2>
+                            <h2 class="text-2xl font-semibold mb-6">Vos configurations par Catégorie</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 @foreach ($configs as $config)
                                     <form method="post" action="" class="border rounded-lg p-4">
@@ -107,18 +107,23 @@
                                             <div class="flex items-center justify-between gap-2">
                                                 <input type="range" class="w-full mr-4" min="0" max="100"
                                                     value="{{ $config->pourcentage }}" disabled>
-                                                <div class="relative flex ">
-                                                    <input type="hidden" name="config_id" value="{{ $config->id }}">
-                                                    <input type="text" name="pourcentage"
-                                                        class="block w-20 !rounded-button border-gray-300 shadow-sm focus:border-custom focus:ring-custom"
-                                                        value="{{ $config->pourcentage }}">
-                                                    <span
-                                                        class="absolute inset-y-0 right-3 flex items-center text-gray-500">%</span>
-                                                </div>
-                                                {{-- <button
-                                                    class="bg-emerald-600 hover:bg-emerald-500 bottom-8 rounded-lg right-8 inline-flex items-center px-2 py-2 border border-transparent text-base font-medium rounded-button shadow-sm text-white bg-custom focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom ">
-                                                    <span><i class="fas fa-save mx-2"></i></span>
-                                                </button> --}}
+                                                <form action="{{ route('utilisateur.configuration.update') }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="relative flex ">
+                                                        <input type="hidden" name="config_id"
+                                                            value="{{ $config->id }}">
+                                                        <input type="text" name="pourcentage"
+                                                            value="{{ $config->pourcentage }}"
+                                                            class="block w-20 !rounded-button border-gray-300 shadow-sm focus:border-custom focus:ring-custom">
+                                                        <span
+                                                            class="absolute inset-y-0 right-3 flex items-center text-gray-500">%</span>
+                                                    </div>
+                                                    <button
+                                                        class="bg-emerald-600 hover:bg-emerald-500 bottom-8 rounded-lg right-8 inline-flex items-center px-2 py-2 border border-transparent text-base font-medium rounded-button shadow-sm text-white bg-custom focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom ">
+                                                        <span><i class="fas fa-save mx-2"></i></span>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </form>
@@ -132,32 +137,52 @@
                             <h2 class="text-2xl font-semibold mb-6">Aperçu des Alertes</h2>
                             <div class="space-y-4">
                                 @foreach ($aleartNotification as $notification)
-                                @if($notification->categorie_id)
-                                    <div
-                                        class="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                                        <div class="flex items-center"> <i
-                                                class="fas fa-exclamation-triangle text-yellow-500 mr-3"></i>
-                                            <div>
-                                                <p class="font-medium">Alerte {{ $notification->categorie->title }}</p>
-                                                <p class="text-sm text-gray-600">{{ $notification->mssg }}</p>
+                                    @if ($notification->categorie_id)
+                                        <div
+                                            class="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-exclamation-triangle text-yellow-500 mr-3"></i>
+                                                <div>
+                                                    <div class="flex gap-4">
+                                                        <p class="font-medium">Alerte
+                                                            {{ $notification->categorie->title }}</p>
+                                                        <span
+                                                            class="text-sm text-gray-400">{{ $notification->dateTime_aleart->diffForHumans() }}</span>
+                                                    </div>
+                                                    <p class="text-sm text-gray-600">{{ $notification->mssg }}</p>
+                                                </div>
                                             </div>
+                                            <form method="POST"
+                                                action="{{ route('utilisateur.configuration.destroy', $notification->id) }}"
+                                                class="">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button> <i class="fas fa-times"></i></button>
+                                            </form>
                                         </div>
-                                        <span class="text-sm text-gray-500">{{ $notification->dateTime_aleart->diffForHumans() }}</span>
-                                    </div>
-                                @else
-                                    <div
-                                        class="flex items-center justify-between p-4 bg-red-50 border border-red-200 rounded-lg">
-                                        <div class="flex items-center">
-                                            <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
-                                            <div>
-                                                <p class="font-medium">Alerte Budget</p>
-                                                <p class="text-sm text-gray-600">{{ $notification->mssg }}</p>
+                                    @else
+                                        <div
+                                            class="flex items-center justify-between p-4 bg-red-50 border border-red-200 rounded-lg">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
+                                                <div>
+                                                    <div class="flex gap-4">
+                                                        <p class="font-medium">Alerte Budget</p>
+                                                        <span
+                                                            class="text-sm text-gray-400">{{ $notification->dateTime_aleart->diffForHumans() }}</span>
+                                                    </div>
+                                                    <p class="text-sm text-gray-600">{{ $notification->mssg }}</p>
+                                                </div>
                                             </div>
+                                            <form method="POST"
+                                                action="{{ route('utilisateur.configuration.destroy', $notification->id) }}"
+                                                class="">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button> <i class="fas fa-times"></i></button>
+                                            </form>
                                         </div>
-                                        <span class="text-sm text-gray-500">{{ $notification->dateTime_aleart->diffForHumans() }}</span>
-                                    </div>
-                                @endif
-
+                                    @endif
                                 @endforeach
                             </div>
                         </div>

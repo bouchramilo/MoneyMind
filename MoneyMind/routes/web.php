@@ -60,6 +60,8 @@ Route::middleware(['auth', 'verified', CheckIfUtilisateur::class])->group(functi
 
     Route::get('utilisateur/configuration', [ConfigAlerteController::class, 'index'])->name('utilisateur.configuration');
     Route::post('utilisateur/configuration', [ConfigAlerteController::class, 'store'])->name('utilisateur.configuration.categorie');
+    Route::delete('utilisateur/configuration/{id}', [ConfigAlerteController::class, 'destroy'])->name('utilisateur.configuration.destroy');
+    Route::put('utilisateur/configuration', [ConfigAlerteController::class, 'update'])->name('utilisateur.configuration.update');
 
 
 
@@ -76,8 +78,10 @@ Route::middleware(['auth', 'verified', CheckIfAdmin::class])->group(function () 
     Route::delete('/admin/dashboard/{id}', [AdminController::class, 'destroy'])->name('utilisateurs.destroy');
 
     Route::resource('categories', CategorieController::class)->only([
-        'index', 'store', 'update','destroy',
+        'index', 'store', 'destroy',
     ]);
+
+    Route::put('/admin/catgories', [CategorieController::class, 'update'])->name('categories.update');
 
 });
 

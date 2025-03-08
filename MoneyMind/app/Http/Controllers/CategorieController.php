@@ -39,4 +39,17 @@ class CategorieController extends Controller
         return redirect()->route('categories.index');
     }
     // **********************************************************************************************************************************
+
+    public function update(Request $request){
+        $request->validate(rules: [
+            'title' => ['required', 'string', 'max:255'],
+        ]);
+
+        $existeCategorie = Categorie::where('id', '=', $request->categorie_id)->first();
+
+        $existeCategorie->update([
+            'title' => $request->title,
+        ]);
+        return redirect()->route('categories.index');
+    }
 }
