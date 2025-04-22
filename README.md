@@ -84,7 +84,7 @@ L'application est hébergée sur un serveur Linux et déployée avec :
 
 1. **Cloner le répertoire** :
    ```sh
-   git clone https://github.com/votre-utilisateur/moneymind.git
+   git clone https://github.com/bouchramilo/MoneyMind
    cd moneymind
    ```
 2. **Installer les dépendances** :
