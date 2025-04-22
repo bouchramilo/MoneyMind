@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ObjectifController extends Controller
 {
+    // *****************************************************************************************************************************
     /**
      * Display a listing of the resource.
      */
@@ -23,6 +24,7 @@ class ObjectifController extends Controller
         return view("utilisateur/objectifs", ["objectifs" => $objectifs, "objectif_current" => $obj_current, "progressions" => $progressions]);
     }
 
+    // *****************************************************************************************************************************
     /**
      * Show the form for creating a new resource.
      */
@@ -31,6 +33,7 @@ class ObjectifController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Store a newly created resource in storage.
      */
@@ -46,7 +49,6 @@ class ObjectifController extends Controller
 
         $existeObjectif = ObjectifMensuel::where('user_id', $userId)
             ->wherenull('date_obj_fin')
-            // ->whereYear('date_obj_debut', $anneeCourant)
             ->first();
 
         if ($existeObjectif) {
@@ -65,6 +67,7 @@ class ObjectifController extends Controller
         return redirect()->route('utilisateur.objectifs');
     }
 
+    // *****************************************************************************************************************************
     /**
      * Display the specified resource.
      */
@@ -73,6 +76,7 @@ class ObjectifController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Show the form for editing the specified resource.
      */
@@ -81,6 +85,7 @@ class ObjectifController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Update the specified resource in storage.
      */
@@ -89,6 +94,7 @@ class ObjectifController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Remove the specified resource from storage.
      */

@@ -168,12 +168,7 @@
                                                         {{ $user->salaire }} €
                                                     </div>
                                                 </td>
-                                                {{-- <td class="px-6 py-4 whitespace-nowrap">
-                                                <span
-                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                                    Actif
-                                                </span>
-                                            </td> --}}
+
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                                     {{ $user->last_login->diffForHumans() }}
@@ -181,81 +176,6 @@
                                             </tr>
                                         @endforeach
 
-                                        <!-- Example User Row 2 -->
-                                        {{-- <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="h-10 w-10 flex-shrink-0">
-                                                        <img class="h-10 w-10 rounded-full"
-                                                            src="https://ui-avatars.com/api/?name=Jane+Smith"
-                                                            alt="User avatar">
-                                                    </div>
-                                                    <div class="ml-4">
-                                                        <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                                            Jane Smith
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-500 dark:text-gray-400">
-                                                    jane.smith@example.com
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-900 dark:text-white">
-                                                    3 200 €
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <span
-                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                                                    Inactif
-                                                </span>
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                                Il y a 3 mois
-                                            </td>
-                                        </tr> --}}
-
-                                        <!-- Example User Row 3 -->
-                                        {{-- <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="h-10 w-10 flex-shrink-0">
-                                                        <img class="h-10 w-10 rounded-full"
-                                                            src="https://ui-avatars.com/api/?name=Robert+Johnson"
-                                                            alt="User avatar">
-                                                    </div>
-                                                    <div class="ml-4">
-                                                        <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                                            Robert Johnson
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-500 dark:text-gray-400">
-                                                    robert.j@example.com
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-900 dark:text-white">
-                                                    4 100 €
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <span
-                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                                    Actif
-                                                </span>
-                                            </td>
-                                            <td
-                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                                Il y a 5 minutes
-                                            </td>
-                                        </tr> --}}
                                     </tbody>
                                 </table>
                             </div>
@@ -304,7 +224,8 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <form action="{{ route('utilisateurs.destroy', $inactif->id) }}" method="POST">
+                                                <form action="{{ route('utilisateurs.destroy', $inactif->id) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button onclick="deleteUser(1)"
@@ -351,52 +272,6 @@
                 console.log('Deleting user:', userId);
             }
         }
-
-        // Charts
-        // const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
-        // new Chart(userGrowthCtx, {
-        //     type: 'line',
-        //     data: {
-        //         labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
-        //         datasets: [{
-        //             label: 'Nouveaux Utilisateurs',
-        //             data: [65, 78, 90, 85, 95, 110],
-        //             borderColor: '#059669',
-        //             tension: 0.3
-        //         }]
-        //     },
-        //     options: {
-        //         responsive: true,
-        //         maintainAspectRatio: false,
-        //         scales: {
-        //             y: {
-        //                 beginAtZero: true
-        //             }
-        //         }
-        //     }
-        // });
-
-        // const incomeDistributionCtx = document.getElementById('incomeDistributionChart').getContext('2d');
-        // new Chart(incomeDistributionCtx, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ['0-1000€', '1000-2000€', '2000-3000€', '3000-4000€', '4000€+'],
-        //         datasets: [{
-        //             label: 'Nombre d\'utilisateurs',
-        //             data: [30, 45, 60, 35, 20],
-        //             backgroundColor: '#0EA5E9'
-        //         }]
-        //     },
-        //     options: {
-        //         responsive: true,
-        //         maintainAspectRatio: false,
-        //         scales: {
-        //             y: {
-        //                 beginAtZero: true
-        //             }
-        //         }
-        //     }
-        // });
     </script>
 
 </x-app-layout>

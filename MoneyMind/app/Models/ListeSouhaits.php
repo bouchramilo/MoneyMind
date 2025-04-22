@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
-
 
 class ListeSouhaits extends Model
 {
@@ -19,6 +16,8 @@ class ListeSouhaits extends Model
         'user_id',
         'prix_actuel',
     ];
+
+    // *****************************************************************************************************************************
 
     public function user()
     {

@@ -12,12 +12,13 @@ use Carbon\Carbon;
 class UserDashboardController extends Controller
 {
     protected $geminiService;
-
+// *****************************************************************************************************************************
     public function __construct(GeminiService $geminiService)
     {
         $this->geminiService = $geminiService;
     }
 
+    // *****************************************************************************************************************************
     public function index()
     {
 

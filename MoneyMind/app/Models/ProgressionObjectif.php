@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +17,8 @@ class ProgressionObjectif extends Model
         'pourcentage_atteint',
         'date_mise_a_jour',
     ];
+
+    // *****************************************************************************************************************************
 
     public function objectif()
     {

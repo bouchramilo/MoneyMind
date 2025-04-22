@@ -45,7 +45,7 @@
                                     <div class="flex justify-between items-center mb-6">
                                         <h2 class="text-lg font-medium text-gray-900">Liste des Dépenses
                                             ({{ $depenses_recc->count() }})</h2>
-                                        
+
                                     </div>
                                     <table class="min-w-full">
                                         <thead>
@@ -196,49 +196,6 @@
                             </div>
                         </div>
                     </main>
-
-                    {{-- <div id="modal"
-                        class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-                        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
-                            <div class="px-6 py-4 border-b border-gray-200">
-                                <h3 class="text-lg font-medium text-gray-900">Nouvelle Dépense Récurrente</h3>
-                            </div>
-                            <form class="px-6 py-4">
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Nom de la
-                                        dépense</label> <input type="text"
-                                        class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Ex: Loyer">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Montant</label> <input
-                                        type="number" class="w-full border-gray-300 rounded-md shadow-sm"
-                                        placeholder="0,00 €">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Fréquence</label>
-                                    <select class="w-full border-gray-300 rounded-md shadow-sm">
-                                        <option>Mensuel</option>
-                                        <option>Trimestriel</option>
-                                        <option>Annuel</option>
-                                    </select>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Date de début</label>
-                                    <input type="date" class="w-full border-gray-300 rounded-md shadow-sm">
-                                </div>
-                            </form>
-                            <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-4 rounded-b-lg">
-                                <button
-                                    class="!rounded-button px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
-                                    Annuler
-                                </button>
-                                <button
-                                    class="!rounded-button px-4 py-2 text-sm font-medium text-white bg-custom hover:bg-custom-dark">
-                                    Sauvegarder
-                                </button>
-                            </div>
-                        </div>
-                    </div> --}}
 
                     {{-- ********************************************************************************************************** --}}
                 </div>

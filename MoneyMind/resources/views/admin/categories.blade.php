@@ -181,9 +181,7 @@
             // Sélection des champs du formulaire
             const idInput = modal.querySelector("input[name='categorie_id']");
             const nomInput = modal.querySelector("input[placeholder='Entrez le nom de catégorie']");
-            // const prixInput = modal.querySelector("input[placeholder='0.00']");
-            // const dateInput = modal.querySelector("input[placeholder='01/01/2001']");
-            // const prioriteSelect = modal.querySelector("#categorie"); // Sélection du champ <select>
+
 
             function openModal(depenseRecc) {
                 console.log("Modifier le depenseRecc avec l'ID :", depenseRecc.id);
@@ -193,12 +191,6 @@
                 // Remplir les champs du formulaire
                 idInput.value = depenseRecc.id;
                 nomInput.value = depenseRecc.nom;
-                // prixInput.value = depenseRecc.prix;
-                // dateInput.value = depenseRecc.dateReccurente;
-
-                // Sélectionner la bonne option pour la priorité
-                // prioriteSelect.value = depenseRecc.categorieId;
-                // prioriteSelect.innerHTML = depenseRecc.categorie;
             }
 
             function closeModal() {
@@ -212,9 +204,7 @@
                     const depenseRecc = {
                         id: this.getAttribute("data-id"),
                         nom: this.getAttribute("data-nom"),
-                        // prix: this.getAttribute("data-prix"),
-                        // categorieId: this.getAttribute("data-categorieId"),
-                        // dateReccurente: this.getAttribute("data-dateReccurente"),
+
                     };
 
                     openModal(depenseRecc);

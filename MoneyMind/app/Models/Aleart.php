@@ -24,6 +24,7 @@ class Aleart extends Model
         'dateTime_aleart' => 'datetime',
     ];
 
+    // *****************************************************************************************************************************
     public function user()
     {
         return $this->belongsTo(User::class);

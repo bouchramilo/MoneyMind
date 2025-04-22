@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SouhaitsController extends Controller
 {
+    // *****************************************************************************************************************************
     /**
      * Display a listing of the resource.
      */
@@ -23,6 +24,7 @@ class SouhaitsController extends Controller
         return view("utilisateur/souhaits", compact(["listeSouhaits", "totalSouhaits", "montant_current"]));
     }
 
+    // *****************************************************************************************************************************
     /**
      * Show the form for creating a new resource.
      */
@@ -31,6 +33,7 @@ class SouhaitsController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Store a newly created resource in storage.
      */
@@ -54,6 +57,7 @@ class SouhaitsController extends Controller
         return redirect()->route('utilisateur.souhaits');
     }
 
+    // *****************************************************************************************************************************
     /**
      * Display the specified resource.
      */
@@ -62,6 +66,7 @@ class SouhaitsController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Show the form for editing the specified resource.
      */
@@ -70,6 +75,7 @@ class SouhaitsController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Update the specified resource in storage.
      */
@@ -93,6 +99,7 @@ class SouhaitsController extends Controller
         return redirect()->route('utilisateur.souhaits');
     }
 
+    // *****************************************************************************************************************************
     /**
      * Remove the specified resource from storage.
      */

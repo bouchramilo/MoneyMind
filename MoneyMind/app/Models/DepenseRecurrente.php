@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +18,8 @@ class DepenseRecurrente extends Model
         'user_id',
         'date_reccurente',
     ];
+
+    // *****************************************************************************************************************************
 
     public function user()
     {

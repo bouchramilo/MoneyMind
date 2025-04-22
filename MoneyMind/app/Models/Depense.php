@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +15,8 @@ class Depense extends Model
         'categorie_id',
         'user_id',
     ];
+
+    // *****************************************************************************************************************************
 
     public function user()
     {

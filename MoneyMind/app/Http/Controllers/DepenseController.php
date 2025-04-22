@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Notification;
 
 class DepenseController extends Controller
 {
+    // *****************************************************************************************************************************
     /**
      * Display a listing of the resource.
      */
@@ -25,17 +26,18 @@ class DepenseController extends Controller
 
         $totalDepenses = Auth::user()->depenses()->sum('prix');
 
-        $depensesParCategorie =  Auth::user()->depenses()
+        $depensesParCategorie = Auth::user()->depenses()
             ->select('categorie_id', \DB::raw('SUM(prix) as total'))
             ->groupBy('categorie_id')
             ->with("categorie")->get();
 
-            // dd($depensesParCategorie);
+        // dd($depensesParCategorie);
 
         return view("utilisateur/depenses", compact(["categories", "depenses", "totalDepenses", "depensesParCategorie"]));
 
     }
 
+    // *****************************************************************************************************************************
     /**
      * Show the form for creating a new resource.
      */
@@ -44,6 +46,7 @@ class DepenseController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Store a newly created resource in storage.
      */
@@ -66,36 +69,36 @@ class DepenseController extends Controller
         ]);
 
         $user = Auth::user();
-        $user->update( [
+        $user->update([
             'Budjet' => $user->Budjet - $request->prix,
         ]);
 
         // seuil global
-        $seuilglobal = AleartConfig::where('user_id', $user->id)->where('seuilType','=', 'seuil_global')->first();
-        $seuilglobal->pourcentage_actuel = $seuilglobal->pourcentage_actuel + ($request->prix / $user->salaire) *100;
+        $seuilglobal                     = AleartConfig::where('user_id', $user->id)->where('seuilType', '=', 'seuil_global')->first();
+        $seuilglobal->pourcentage_actuel = $seuilglobal->pourcentage_actuel + ($request->prix / $user->salaire) * 100;
         $seuilglobal->save();
-        if($seuilglobal->pourcentage_actuel >= $seuilglobal->pourcentage){
+        if ($seuilglobal->pourcentage_actuel >= $seuilglobal->pourcentage) {
             $message = "Vous avez dépassé {$seuilglobal->pourcentage} de votre seuil global. (Votre pourcentage maintenant {$seuilglobal->pourcentage_actuel}) .";
             Notification::send($user, new aleartNotification($message));
 
             //
             Aleart::create([
-                'mssg'          => $message,
-                'user_id'      => $user->id,
+                'mssg'    => $message,
+                'user_id' => $user->id,
             ]);
         }
 
         // seuil par categorie
-        $config = AleartConfig::where('user_id', $user->id)->where('categorie_id','=', $request->categorie_id)->first();
-        $config->pourcentage_actuel = $config->pourcentage_actuel + ($request->prix / $user->salaire) *100;
+        $config                     = AleartConfig::where('user_id', $user->id)->where('categorie_id', '=', $request->categorie_id)->first();
+        $config->pourcentage_actuel = $config->pourcentage_actuel + ($request->prix / $user->salaire) * 100;
         $config->save();
-        if($config->pourcentage_actuel >= $config->pourcentage){
+        if ($config->pourcentage_actuel >= $config->pourcentage) {
             $message = "Vous avez dépassé {$config->pourcentage} de votre seuil par catégorie '{$config->categorie->title}' déjà défini (Votre pourcentage maintenant {$config->pourcentage_actuel}) .";
             Notification::send($user, new aleartNotification($message));
 
             //
             Aleart::create([
-                'mssg'          => $message,
+                'mssg'         => $message,
                 'categorie_id' => $config->categorie->id,
                 'user_id'      => $user->id,
             ]);
@@ -104,6 +107,7 @@ class DepenseController extends Controller
         return redirect()->route('utilisateur.depenses');
     }
 
+    // *****************************************************************************************************************************
     /**
      * Display the specified resource.
      */
@@ -112,6 +116,7 @@ class DepenseController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Show the form for editing the specified resource.
      */
@@ -120,6 +125,7 @@ class DepenseController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Update the specified resource in storage.
      */
@@ -127,22 +133,23 @@ class DepenseController extends Controller
     {
         // dd($request);
         $request->validate([
-            'nom'      => ['required', 'string', 'max:255'],
-            'prix'     => ['required', 'numeric'],
+            'nom'         => ['required', 'string', 'max:255'],
+            'prix'        => ['required', 'numeric'],
             'catgorie_id' => ['nullable', 'integer', 'exists:categories,id'],
         ]);
 
         $souhait = Depense::findOrFail($request->depense_id);
 
         $souhait->update([
-            'nom'      => $request->nom,
-            'prix'     => $request->prix,
+            'nom'          => $request->nom,
+            'prix'         => $request->prix,
             'categorie_id' => $request->categorie_id,
         ]);
 
         return redirect()->route('utilisateur.depenses');
     }
 
+    // *****************************************************************************************************************************
     /**
      * Remove the specified resource from storage.
      */

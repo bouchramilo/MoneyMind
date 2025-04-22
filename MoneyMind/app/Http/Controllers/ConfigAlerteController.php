@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 
 class ConfigAlerteController extends Controller
 {
+    // *****************************************************************************************************************************
     /**
      * Display a listing of the resource.
      */
@@ -20,10 +21,11 @@ class ConfigAlerteController extends Controller
         $categories         = Categorie::all();
         $configs            = AleartConfig::where("user_id", "=", Auth::user()->id)->where("seuilType", "=", "seuil_categorie")->get();
         $global             = AleartConfig::where("user_id", "=", Auth::user()->id)->where("seuilType", "=", "seuil_global")->get();
-// dd($global);
+        // dd($global);
         return view("utilisateur/configuration", compact(["categories", "configs", "global", "aleartNotification"]));
     }
 
+    // *****************************************************************************************************************************
     /**
      * Show the form for creating a new resource.
      */
@@ -32,6 +34,7 @@ class ConfigAlerteController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Store a newly created resource in storage.
      */
@@ -58,12 +61,6 @@ class ConfigAlerteController extends Controller
         } else {
             $request->validate([
                 'pourcentage' => 'required|numeric|min:1|max:100',
-                // 'seuilType'   => [
-                //     'required',
-                //     Rule::unique('configalearts')->where(function ($query) {
-                //         return $query->where('user_id', auth()->id());
-                //     }),
-                // ],
             ]);
 
             $existe = AleartConfig::where('user_id', '=', Auth::user()->id)->where('seuilType', '=', $request->seuilType)->first();
@@ -84,6 +81,7 @@ class ConfigAlerteController extends Controller
         return redirect()->back()->with('success', 'Configuration enregistrée avec succès.');
     }
 
+    // *****************************************************************************************************************************
     /**
      * Display the specified resource.
      */
@@ -92,6 +90,7 @@ class ConfigAlerteController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Show the form for editing the specified resource.
      */
@@ -100,6 +99,7 @@ class ConfigAlerteController extends Controller
         //
     }
 
+    // *****************************************************************************************************************************
     /**
      * Update the specified resource in storage.
      */
@@ -117,6 +117,7 @@ class ConfigAlerteController extends Controller
         return redirect()->route('utilisateur.configuration');
     }
 
+    // *****************************************************************************************************************************
     /**
      * Remove the specified resource from storage.
      */

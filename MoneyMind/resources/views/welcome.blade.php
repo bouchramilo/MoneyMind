@@ -139,7 +139,7 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="relative py-20 bg-white overflow-hidden">
+    {{-- <section id="features" class="relative py-20 bg-white overflow-hidden">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-16" data-aos="fade-up">
                 Fonctionnalités principales
@@ -185,7 +185,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- How it works Section -->
     <section id="how-it-works" class="relative py-20 bg-gray-50 overflow-hidden container">

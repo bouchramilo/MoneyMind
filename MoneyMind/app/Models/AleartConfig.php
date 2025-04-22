@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +17,8 @@ class AleartConfig extends Model
         'pourcentage',
         'seuilType',
     ];
+
+    // *****************************************************************************************************************************
 
     public function user()
     {

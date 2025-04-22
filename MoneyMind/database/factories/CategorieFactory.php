@@ -9,15 +9,23 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CategorieFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        $categories = [
+            'Logement',
+            'Alimentation',
+            'Transport',
+            'Factures & Services',
+            'Santé',
+            'Éducation',
+            'Shopping',
+            'Loisirs & Sorties',
+            'Animaux',
+            'Dettes & Crédit'
+        ];
+
         return [
-            'title' => $this->faker->word(),
+            'title' => $this->faker->unique()->randomElement($categories),
         ];
     }
 }
